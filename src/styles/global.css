@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-xs: 480px;
+
+  --color-bg: var(--bg);
+  --color-s1: var(--s1);
+  --color-s2: var(--s2);
+  --color-s3: var(--s3);
+  --color-b1: var(--b1);
+  --color-b2: var(--b2);
+  --color-t1: var(--t1);
+  --color-t2: var(--t2);
+  --color-t3: var(--t3);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-green: var(--green);
+  --color-green-dim: var(--green-dim);
+  --color-amber: var(--amber);
+  --color-amber-dim: var(--amber-dim);
+  --color-header-bg: var(--header-bg);
+
+  --font-sans: var(--font);
+}
+
+@layer base {
+  :root {
+    --bg:         #FFFFFF;
+    --s1:         #F5F5F5;
+    --s2:         #F8F9FA;
+    --s3:         #E5E7EB;
+    --b1:         #E5E7EB;
+    --b2:         #D1D5DB;
+    --t1:         #111111;
+    --t2:         #374151;
+    --t3:         #6B7280;
+    --accent:     #111111;
+    --accent-dim: #F5F5F5;
+    --green:      #10B981;
+    --green-dim:  #ECFDF5;
+    --amber:      #B45309;
+    --amber-dim:  #FFFBEB;
+    --header-bg:  rgba(255,255,255,0.92);
+    --arrow-clr:  %236B7280;
+    --font: "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  [data-theme="dark"] {
+    --bg:         #101010;
+    --s1:         #1A1A1A;
+    --s2:         #242424;
+    --s3:         #2D2D2D;
+    --b1:         #2D2D2D;
+    --b2:         #3F3F46;
+    --t1:         #FAFAFA;
+    --t2:         #A1A1AA;
+    --t3:         #71717A;
+    --accent:     #FAFAFA;
+    --accent-dim: #1A1A1A;
+    --green:      #34D399;
+    --green-dim:  #052E16;
+    --amber:      #FCD34D;
+    --amber-dim:  #1C0A00;
+    --header-bg:  rgba(16,16,16,0.92);
+    --arrow-clr:  %23A1A1AA;
+  }
+
+  html { 
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--t1);
+    line-height: 1.6;
+    transition: background 0.2s, color 0.2s;
+    margin: 0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+}
+
+@layer components {
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  @media (min-width: 768px) { .wrap { padding: 0 40px; } }
+
+  .content-section {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--b1);
+  }
+
+  .content-section.alt { background: var(--s1); }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--t1);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .section-lead {
+    font-size: 15px;
+    color: var(--t2);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media (min-width: 768px) { .two-col { grid-template-columns: 1fr 1fr; gap: 48px; } }
+
+  /* ── Calculator & Utility ────────── */
+  .mult-btn.active {
+    background: var(--bg);
+    color: var(--t1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+}

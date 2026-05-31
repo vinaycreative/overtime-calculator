@@ -1,0 +1,35 @@
+---
+const faqs = [
+  { q: 'What is time and a half?', a: 'Time and a half means earning <strong>1.5× your regular hourly rate</strong> for overtime hours. If you earn $20/hr, your time-and-a-half rate is $30/hr. Under US federal law (FLSA), this applies to non-exempt employees for hours worked beyond 40 per workweek.' },
+  { q: 'When does overtime start?', a: 'Under US <strong>federal law</strong>, overtime starts after <strong>40 hours in a workweek</strong>. California and Alaska start overtime after 8 hours in a single workday — even if you haven\'t hit 40 hours for the week. Colorado triggers daily overtime after 12 hours in a day.' },
+  { q: 'Is overtime taxed more than regular pay?', a: 'No — overtime is <strong>not taxed at a higher rate</strong>. It\'s subject to the same federal and state income tax brackets as regular wages. Your employer may withhold more from an overtime check because total earnings are higher, but you reconcile that when you file your annual return.' },
+  { q: 'What is double time pay?', a: 'Double time means <strong>2× your regular hourly rate</strong>. In California it\'s legally required after 12 hours in a single workday, or after 8 hours on the 7th consecutive workday. Some union contracts include double time for holidays regardless of state law.' },
+  { q: 'Do salaried employees get overtime?', a: 'Yes — many do. Salaried employees earning <strong>under $684/week ($35,568/year)</strong> must receive overtime regardless of job title. Employees above this threshold may be exempt if their duties qualify as executive, administrative, or professional. Duties matter more than title.' },
+  { q: 'Does overtime apply on weekends?', a: 'Federal law does <strong>not require extra pay for weekend work</strong>. Overtime is based on total hours in a workweek, not specific days. However, your employer\'s policy or a union agreement may guarantee weekend premium pay — always check your employment contract.' },
+  { q: 'Does PTO count toward overtime?', a: 'No. Under federal law, <strong>only hours actually worked</strong> count toward the overtime threshold. PTO, sick days, and vacation time don\'t count. If you take a PTO day and work 40 hours that week, those 40 are all regular — PTO doesn\'t push hours into overtime.' },
+  { q: 'Can my employer give comp time instead?', a: 'In the <strong>private sector, generally no</strong>. Private employers must pay cash overtime — they can\'t substitute comp time for legally-owed overtime wages. Government employers have more flexibility. If a private employer offers comp time instead of cash overtime, that may be an FLSA violation.' },
+  { q: 'What if my employer doesn\'t pay overtime?', a: 'File a complaint with the <strong>US Department of Labor\'s Wage and Hour Division</strong>. You may be owed back pay for up to 2 years (3 years for willful violations), plus equal liquidated damages. An employment attorney can also file suit, often on a contingency basis.' },
+  { q: 'California overtime — full breakdown', a: 'California Labor Code §510: <strong>1.5× applies</strong> after 8 hrs/day, 40 hrs/week, or the first 8 hrs on the 7th consecutive workday. <strong>2× (double time) applies</strong> after 12 hrs/day or all hours on the 7th consecutive day beyond 8 — among the strictest rules in the US.' },
+  { q: 'How is overtime calculated for tipped workers?', a: 'Tipped employees\' overtime must be based on the <strong>full minimum wage, not the tipped cash wage</strong>. Federal minimum wage is $7.25/hr → overtime rate is $10.875/hr. The employer then subtracts the tip credit. Many states calculate this more favorably for tipped workers.' },
+  { q: 'What is the 2024 overtime salary threshold?', a: 'The current FLSA salary threshold is <strong>$684/week ($35,568/year)</strong>. Employees below this must receive overtime regardless of title or duties. The DOL has proposed raising this threshold — check dol.gov for the latest, as these thresholds are updated periodically.' },
+];
+---
+<section class="py-24 bg-s1 border-b border-b1" id="faq">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-10">
+    <span class="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-accent mb-2.5">FAQ</span>
+    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-t1 leading-[1.15] mb-3">Common questions</h2>
+    <p class="text-[15px] text-t2 max-w-[600px] leading-[1.7] mb-10">Everything you need to know about overtime pay — how it's calculated, when it applies, and what your employer is required to pay.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-b1 border border-b1 rounded-xl overflow-hidden shadow-sm">
+      {faqs.map((faq) => (
+        <details class="bg-s1 group transition-all duration-200">
+          <summary class="p-5 text-sm font-semibold text-t1 cursor-pointer list-none flex justify-between items-start gap-3 select-none hover:text-accent group-open:text-accent group-open:border-b group-open:border-b1 leading-snug">
+            {faq.q}
+            <svg class="w-[18px] h-[18px] shrink-0 text-t3 transition-transform duration-200 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </summary>
+          <div class="p-5 pt-3.5 pb-4.5 text-[13.5px] text-t2 leading-relaxed" set:html={faq.a}></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

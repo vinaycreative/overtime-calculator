@@ -1,0 +1,57 @@
+---
+---
+<header class="site-header sticky top-0 z-50 border-b border-b1 bg-header-bg backdrop-blur-md transition-colors duration-200">
+  <div class="wrap">
+    <div class="header-inner flex items-center justify-between h-[62px] gap-4">
+      <a class="wordmark flex items-center gap-2.5 no-underline shrink-0" href="/" aria-label="OvertimeCal">
+        <div class="logo w-[30px] h-[30px] bg-[#111111] dark:bg-[#FAFAFA] rounded-lg flex items-center justify-center shrink-0 transition-colors">
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true" class="w-4 h-4">
+            <circle cx="9" cy="9" r="7.5" stroke="white" stroke-width="1.5" class="dark:stroke-[#111111]"/>
+            <path d="M9 5v4l2.5 2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="dark:stroke-[#111111]"/>
+          </svg>
+        </div>
+        <span class="brand text-[15px] font-bold text-t1 tracking-tight">OvertimeCal</span>
+      </a>
+      <div class="header-right flex items-center gap-1">
+        <nav class="site-nav hidden sm:flex gap-0.5" aria-label="Sections">
+          <a href="#how-it-works" class="text-sm font-medium text-t3 hover:text-t1 hover:bg-s2 px-3 py-1.5 rounded-md transition-all no-underline">How it works</a>
+          <a href="#rate-chart" class="text-sm font-medium text-t3 hover:text-t1 hover:bg-s2 px-3 py-1.5 rounded-md transition-all no-underline">Rate chart</a>
+          <a href="#testimonials" class="text-sm font-medium text-t3 hover:text-t1 hover:bg-s2 px-3 py-1.5 rounded-md transition-all no-underline">Reviews</a>
+          <a href="#faq" class="text-sm font-medium text-t3 hover:text-t1 hover:bg-s2 px-3 py-1.5 rounded-md transition-all no-underline">FAQ</a>
+        </nav>
+        <button id="theme-toggle" class="theme-btn w-9 h-9 ml-2 bg-s2 border border-b1 rounded-lg cursor-pointer flex items-center justify-center text-t2 hover:bg-s3 hover:text-t1 shrink-0 transition-all" aria-label="Toggle light/dark mode" title="Toggle theme">
+          <!-- icon injected by JS -->
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (function() {
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+
+    const SUN = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+    const MOON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      localStorage.setItem('oc-theme', t);
+      if (toggleBtn) {
+        toggleBtn.innerHTML = t === 'dark' ? SUN : MOON;
+        toggleBtn.title = t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+      }
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        applyTheme(html.dataset.theme === 'dark' ? 'light' : 'dark');
+      });
+    }
+
+    // Init theme
+    const savedTheme = localStorage.getItem('oc-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+  })();
+</script>

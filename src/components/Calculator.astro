@@ -1,0 +1,770 @@
+---
+---
+<div class="calc-card w-full bg-bg border border-b1 rounded-xl transition-colors shadow-sm relative overflow-hidden" id="calculator">
+  <div class="calc-top flex items-center justify-between gap-3 px-6 py-3.5 border-b border-b1 bg-s2">
+    <div class="flex items-center gap-2">
+      <!-- Back button (only shown when results are visible) -->
+      <button id="back-btn" class="hidden items-center justify-center w-8 h-8 rounded-lg hover:bg-bg border border-transparent hover:border-b2 text-t2 hover:text-t1 transition-all active:scale-95 cursor-pointer mr-1" title="Go back to inputs">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      <span class="calc-title text-[13.5px] font-bold text-t1 tracking-tight shrink-0">Overtime Calculator</span>
+    </div>
+    <div class="calc-top-actions flex items-center gap-2.5">
+      <button id="print-btn" class="flex items-center gap-2 h-8 px-3 bg-bg border border-b2 rounded-lg text-xs font-bold text-t2 hover:bg-s2 hover:text-t1 transition-all active:scale-95 shadow-sm" title="Print calculation report">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span class="hidden sm:inline">Print</span>
+      </button>
+      <button id="reset-btn" class="flex items-center gap-2 h-8 px-3 bg-bg border border-b2 rounded-lg text-xs font-bold text-t2 hover:bg-s2 hover:text-t1 transition-all active:scale-95 shadow-sm" title="Reset calculator fields">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <span class="hidden sm:inline">Reset</span>
+      </button>
+      <button id="copy-btn" class="flex items-center gap-2 h-8 px-3 bg-bg border border-b2 rounded-lg text-xs font-bold text-t2 hover:bg-s2 hover:text-t1 transition-all active:scale-95 shadow-sm" title="Copy results to clipboard">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span class="hidden sm:inline">Copy</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="calc-body" class="relative transition-all duration-300">
+    
+    <!-- INPUTS VIEW -->
+    <div id="inputs-panel" class="flex flex-col p-6 sm:p-8 gap-4 sm:gap-5">
+      <div>
+        <label for="custom-select-trigger" class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2">Jurisdiction</label>
+        
+        <div class="custom-select-container relative w-full" id="custom-state-select-container">
+          <!-- Hidden real select to maintain compatibility with calculation triggers -->
+          <select id="state-select-top" class="hidden">
+            <option value="federal">Federal (FLSA)</option>
+            <option value="ca">California</option>
+            <option value="nv">Nevada</option>
+            <option value="ak">Alaska</option>
+            <option value="co">Colorado</option>
+            <option value="ny">New York</option>
+            <option value="tx">Texas</option>
+            <option value="fl">Florida</option>
+            <option value="wa">Washington</option>
+            <option value="il">Illinois</option>
+            <option value="oh">Ohio</option>
+          </select>
+
+          <!-- Custom Select Trigger Button -->
+          <button type="button" id="custom-select-trigger" class="w-full h-12 bg-bg border border-b2 rounded-xl text-[15px] font-bold text-t1 pl-10 pr-9 outline-none transition-all focus:border-accent focus:ring-8 focus:ring-[rgba(0,0,0,0.02)] cursor-pointer flex items-center justify-between text-left" aria-haspopup="listbox" aria-expanded="false">
+            <span class="absolute left-4 text-t3 pointer-events-none select-none flex items-center justify-center" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </span>
+            <span id="custom-select-value">Federal (FLSA)</span>
+            <span class="text-t3 transition-transform duration-200 flex items-center justify-center" id="custom-select-chevron">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Custom Dropdown Options Menu -->
+          <div id="custom-select-options" class="absolute left-0 right-0 mt-1.5 bg-bg border border-b1 rounded-xl shadow-lg z-50 py-1.5 hidden opacity-0 max-h-60 overflow-y-auto transition-all duration-200 origin-top scale-95" role="listbox">
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-bold text-t1 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="federal" aria-selected="true">
+              <span>Federal (FLSA)</span>
+              <svg class="check-icon text-green w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="ca" aria-selected="false">
+              <span>California</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="nv" aria-selected="false">
+              <span>Nevada</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="ak" aria-selected="false">
+              <span>Alaska</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="co" aria-selected="false">
+              <span>Colorado</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="ny" aria-selected="false">
+              <span>New York</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="tx" aria-selected="false">
+              <span>Texas</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="fl" aria-selected="false">
+              <span>Florida</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="wa" aria-selected="false">
+              <span>Washington</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="il" aria-selected="false">
+              <span>Illinois</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button type="button" role="option" class="custom-option w-full px-4 py-2 text-left text-sm font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="oh" aria-selected="false">
+              <span>Ohio</span>
+              <svg class="check-icon text-green w-4 h-4 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="state-banner" hidden class="state-banner p-4 bg-[rgba(252,211,77,0.07)] border border-[rgba(252,211,77,0.18)] rounded-xl text-[13px] text-amber leading-relaxed shadow-sm" aria-live="polite"></div>
+
+      <div class="inputs-grid grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" for="hourly-rate">Hourly Rate</label>
+          <div class="input-wrap relative flex items-center">
+            <span class="absolute left-4 text-base font-bold text-t3 pointer-events-none select-none" aria-hidden="true">$</span>
+            <input type="number" id="hourly-rate" inputmode="decimal"
+              min="0" max="9999" step="0.01" value="15"
+              class="w-full h-12 bg-bg border border-b2 rounded-xl text-lg font-bold text-t1 pl-9 pr-3 outline-none transition-all focus:border-accent focus:ring-8 focus:ring-[rgba(0,0,0,0.02)] caret-accent appearance-none"
+              placeholder="0.00" autocomplete="off" aria-label="Hourly rate in dollars" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" for="ot-hours">Overtime Hours</label>
+          <div class="input-wrap relative flex items-center">
+            <input type="number" id="ot-hours" inputmode="decimal"
+              min="0" max="168" step="0.5" value="8"
+              class="w-full h-12 bg-bg border border-b2 rounded-xl text-lg font-bold text-t1 px-4 pr-12 outline-none transition-all focus:border-accent focus:ring-8 focus:ring-[rgba(0,0,0,0.02)] caret-accent appearance-none"
+              placeholder="0" autocomplete="off" aria-label="Overtime hours worked" />
+            <span class="absolute right-4 text-xs font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" aria-hidden="true">hrs</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" id="mult-label">Overtime Multiplier</label>
+        <div class="mult-group flex bg-s2 p-1 rounded-lg gap-0.5" role="group" aria-labelledby="mult-label">
+          <button class="mult-btn h-9.5 flex-1 rounded-md text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center gap-1.5 whitespace-nowrap active" data-mult="1.5" aria-pressed="true">
+            1.5× <span class="hidden md:inline text-[9px] font-semibold opacity-60 uppercase tracking-wider">Time & Half</span>
+          </button>
+          <button class="mult-btn h-9.5 flex-1 rounded-md text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center gap-1.5 whitespace-nowrap" data-mult="2" aria-pressed="false">
+            2× <span class="hidden md:inline text-[9px] font-semibold opacity-60 uppercase tracking-wider">Double Time</span>
+          </button>
+          <button class="mult-btn h-9.5 flex-1 rounded-md text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center gap-1.5 whitespace-nowrap" data-mult="2.5" aria-pressed="false">
+            2.5× <span class="hidden md:inline text-[9px] font-semibold opacity-60 uppercase tracking-wider">Custom</span>
+          </button>
+        </div>
+        <p class="mult-hint text-[11.5px] font-medium text-t3 mt-2 leading-normal opacity-80" id="mult-hint">US federal FLSA: 1.5× applies after 40 hours per workweek for most employees</p>
+      </div>
+      
+      <button id="calculate-btn" class="w-full h-12 bg-green text-bg font-bold rounded-xl text-base shadow-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <span>Calculate Overtime Pay</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- RESULTS VIEW -->
+    <div id="results-panel" class="flex flex-col p-6 sm:p-8 gap-4 sm:gap-5 transition-all duration-300" style="display: none; opacity: 0;">
+      <div class="flex flex-col gap-4">
+        
+        <!-- Summary/calculated badge header -->
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-t3 uppercase tracking-[0.08em]" id="results-summary-label">Calculation Summary</span>
+          <span id="results-badge" class="px-2.5 py-0.5 bg-green-dim text-green text-[10px] font-bold rounded-full uppercase tracking-wider">Calculated</span>
+        </div>
+
+        <!-- Main Hero Card: Total Weekly Gross (Integrated Spacing) -->
+        <div class="relative overflow-hidden bg-s2 border border-b1 rounded-xl p-4 sm:p-5 shadow-xs">
+          <!-- Subtle glow decoration -->
+          <div class="absolute -right-8 -bottom-8 w-20 h-20 bg-green opacity-[0.03] rounded-full pointer-events-none"></div>
+          
+          <div class="flex items-center justify-between gap-4 mb-3">
+            <div>
+              <span class="block text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-1">Total Weekly Gross</span>
+              <div class="text-3xl md:text-[38px] font-extrabold text-t1 tabular-nums leading-none tracking-tight" id="total-pay">$780.00</div>
+            </div>
+            
+            <div class="text-right">
+              <div class="text-[10px] font-bold text-t3 uppercase tracking-wider mb-1">Earnings Share</div>
+              <div class="flex items-center gap-2 justify-end text-xs font-bold">
+                <span class="text-t2 opacity-60" id="share-reg-percent">77% Reg</span>
+                <span class="text-green" id="share-ot-percent">23% OT</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integrated Pay Split Progress Bar -->
+          <div class="w-full h-1.5 bg-bg border border-b1 rounded-full overflow-hidden flex" id="pay-split-bar">
+            <div id="bar-regular" class="h-full bg-t2 opacity-20 transition-all duration-500" style="width: 77%;"></div>
+            <div id="bar-overtime" class="h-full bg-green transition-all duration-500" style="width: 23%;"></div>
+          </div>
+          <p class="text-[11.5px] text-t3 font-medium opacity-85 mt-2.5">Includes base regular pay and overtime earnings</p>
+        </div>
+
+        <!-- Breakdown Grid (3 columns on all viewports, responsive paddings & text sizing) -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-3" aria-live="polite" aria-atomic="true">
+          <!-- Overtime Pay Card -->
+          <div class="bg-bg border border-b1 rounded-xl p-3 sm:p-4 flex flex-col justify-between shadow-xs">
+            <span class="text-[9px] sm:text-[9.5px] font-bold text-t3 uppercase tracking-[0.1em] mb-1.5">Overtime Pay</span>
+            <div>
+              <div class="text-base sm:text-lg md:text-xl font-extrabold text-green tabular-nums leading-tight tracking-tight" id="ot-pay">$180.00</div>
+              <span class="text-[9.5px] sm:text-[10.5px] font-medium text-t3 leading-tight opacity-75" id="ot-rate-sub">at $22.50/hr rate</span>
+            </div>
+          </div>
+          
+          <!-- OT Hourly Rate Card -->
+          <div class="bg-bg border border-b1 rounded-xl p-3 sm:p-4 flex flex-col justify-between shadow-xs">
+            <span class="text-[9px] sm:text-[9.5px] font-bold text-t3 uppercase tracking-[0.1em] mb-1.5">OT Rate / hour</span>
+            <div>
+              <div class="text-base sm:text-lg md:text-xl font-extrabold text-t1 tabular-nums leading-tight tracking-tight" id="ot-rate-card">$22.50</div>
+              <span class="text-[9.5px] sm:text-[10.5px] font-medium text-t3 leading-tight opacity-75" id="ot-multiplier-sub">1.5× multiplier</span>
+            </div>
+          </div>
+
+          <!-- Regular Pay Card -->
+          <div class="bg-bg border border-b1 rounded-xl p-3 sm:p-4 flex flex-col justify-between shadow-xs">
+            <span class="text-[9px] sm:text-[9.5px] font-bold text-t3 uppercase tracking-[0.1em] mb-1.5">Regular Pay</span>
+            <div>
+              <div class="text-base sm:text-lg md:text-xl font-extrabold text-t1 tabular-nums leading-tight tracking-tight" id="reg-pay">$600.00</div>
+              <span class="text-[9.5px] sm:text-[10.5px] font-medium text-t3 leading-tight opacity-75">base 40-hour week</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance / Jurisdictional Info text -->
+        <div class="p-3.5 bg-s2 border border-b1 rounded-xl text-xs text-t2 leading-relaxed" id="state-info-block">
+          <strong id="state-info-title" class="text-t1 font-bold">Federal (FLSA):</strong>&ensp;<span id="state-info-text" class="opacity-80">Overtime at 1.5× applies after 40 hours per workweek. Baseline rule for most US employees.</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons at bottom of results -->
+      <div class="flex items-center gap-3 mt-1">
+        <button id="recalculate-btn" class="flex-1 h-11 bg-bg border border-b2 hover:bg-s2 text-t1 font-bold rounded-xl text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer shadow-xs">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Edit Inputs</span>
+        </button>
+        <button id="results-copy-btn" class="flex-1 h-11 bg-accent text-accent-dim hover:opacity-90 font-bold rounded-xl text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer shadow-xs">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="results-copy-btn-text">Copy Results</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+<script is:inline>
+  (function() {
+    const rateEl      = document.getElementById('hourly-rate');
+    const hoursEl     = document.getElementById('ot-hours');
+    const banner      = document.getElementById('state-banner');
+    const multHint    = document.getElementById('mult-hint');
+    const infoTitle   = document.getElementById('state-info-title');
+    const infoText    = document.getElementById('state-info-text');
+    const otPayEl     = document.getElementById('ot-pay');
+    const otRateSubEl = document.getElementById('ot-rate-sub');
+    const otRateCard  = document.getElementById('ot-rate-card');
+    const regPayEl    = document.getElementById('reg-pay');
+    const totPayEl    = document.getElementById('total-pay');
+    const multBtns    = document.querySelectorAll('.mult-btn');
+    const stateSelect = document.getElementById('state-select-top');
+    const calcBtn     = document.getElementById('calculate-btn');
+    
+    // Custom select elements
+    const customTrigger = document.getElementById('custom-select-trigger');
+    const customOptionsContainer = document.getElementById('custom-select-options');
+    const customChevron = document.getElementById('custom-select-chevron');
+    const customSelectValueText = document.getElementById('custom-select-value');
+    const customOptions = document.querySelectorAll('.custom-option');
+    
+    // Panel elements
+    const inputsPanel   = document.getElementById('inputs-panel');
+    const resultsPanel  = document.getElementById('results-panel');
+    const cardBody      = document.getElementById('calc-body');
+    const backBtn       = document.getElementById('back-btn');
+    const recalculateBtn = document.getElementById('recalculate-btn');
+    const resultsCopyBtn = document.getElementById('results-copy-btn');
+    const resultsCopyBtnText = document.getElementById('results-copy-btn-text');
+    
+    // Header actions
+    const resetBtn    = document.getElementById('reset-btn');
+    const printBtn    = document.getElementById('print-btn');
+    const copyBtn     = document.getElementById('copy-btn');
+
+    let mult = 1.5;
+    let isCalculated = false;
+
+    const STATES = {
+      federal: { hint:'US federal FLSA: 1.5× applies after 40 hours per workweek for most employees', title:'Federal (FLSA):', text:'Overtime at 1.5× applies after 40 hours per workweek. Baseline rule for most US employees under the Fair Labor Standards Act.', banner:null },
+      ca:      { hint:'California: 1.5× after 8 hrs/day or 40 hrs/week · 2× after 12 hrs/day', title:'California:', text:'1.5× after 8 hours/day or 40 hours/week. Double time (2×) required after 12 hours in a day, or after 8 hours on the 7th consecutive workday.', banner:'<strong>California daily OT applies.</strong> Overtime starts after 8 hrs/day — even without hitting 40 hrs/week. Select 2× if you\'ve worked 12+ hours in a single day.' },
+      nv:      { hint:'Nevada: 1.5× after 8 hrs/day (conditional) or 40 hrs/week', title:'Nevada:', text:'1.5× after 8 hours/day for employees earning ≤ 1.5× Nevada minimum wage, or after 40 hours/week for all employees.', banner:null },
+      ak:      { hint:'Alaska: 1.5× after 8 hrs/day or 40 hrs/week — whichever comes first', title:'Alaska:', text:'1.5× after 8 hours in a single workday or after 40 hours/week — whichever comes first.', banner:'<strong>Alaska daily OT applies.</strong> Overtime kicks in after 8 hours in a workday, even without 40 total hours for the week.' },
+      co:      { hint:'Colorado: 1.5× after 12 hrs/day or 40 hrs/week', title:'Colorado:', text:'1.5× after 12 hours in a single workday or after 40 hours/week — whichever results in more OT pay.', banner:null },
+      ny:      { hint:'New York: 1.5× after 40 hrs/week (follows federal FLSA)', title:'New York:', text:'Follows federal FLSA: 1.5× for all hours beyond 40 per workweek. Higher state minimum wage than federal.', banner:null },
+      tx:      { hint:'Texas: 1.5× after 40 hrs/week (follows federal FLSA)', title:'Texas:', text:'Follows federal FLSA exactly: 1.5× for hours beyond 40 per workweek. No additional state overtime provisions.', banner:null },
+      fl:      { hint:'Florida: 1.5× after 40 hrs/week (follows federal FLSA)', title:'Florida:', text:'Follows federal FLSA exactly: 1.5× for hours beyond 40 per workweek. No additional state overtime provisions.', banner:null },
+      wa:      { hint:'Washington: 1.5× after 40 hrs/week', title:'Washington:', text:'Follows federal FLSA: 1.5× after 40 hours/week. Washington has a high state minimum wage ($16.28/hr in 2024).', banner:null },
+      il:      { hint:'Illinois: 1.5× after 40 hrs/week', title:'Illinois:', text:'Follows federal FLSA: 1.5× after 40 hours/week, enforced by the Illinois Department of Labor.', banner:null },
+      oh:      { hint:'Ohio: 1.5× after 40 hrs/week (follows federal FLSA)', title:'Ohio:', text:'Follows federal FLSA: 1.5× after 40 hours/week. No additional state overtime provisions.', banner:null },
+    };
+
+    function fmt(n) {
+      return '$' + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function calc() {
+      if (!rateEl || !hoursEl) return;
+      const rate    = Math.max(0, parseFloat(rateEl.value)  || 0);
+      const otHours = Math.max(0, parseFloat(hoursEl.value) || 0);
+      const otRate  = rate * mult;
+      const otPay   = otHours * otRate;
+      const regPay  = 40 * rate;
+      const total   = regPay + otPay;
+      
+      if (otPayEl) otPayEl.textContent     = fmt(otPay);
+      if (otRateSubEl) otRateSubEl.textContent = 'at ' + fmt(otRate) + '/hr OT rate';
+      if (otRateCard) otRateCard.textContent  = fmt(otRate);
+      if (regPayEl) regPayEl.textContent    = fmt(regPay);
+      if (totPayEl) totPayEl.textContent    = fmt(total);
+
+      // Update multipliers subtext
+      const otMultiplierSub = document.getElementById('ot-multiplier-sub');
+      if (otMultiplierSub) {
+        otMultiplierSub.textContent = mult + '× multiplier';
+      }
+
+      // Update shares
+      const shareRegPercent = document.getElementById('share-reg-percent');
+      const shareOtPercent = document.getElementById('share-ot-percent');
+      const barRegular = document.getElementById('bar-regular');
+      const barOvertime = document.getElementById('bar-overtime');
+
+      let regPercent = 0;
+      let otPercent = 0;
+      if (total > 0) {
+        regPercent = Math.round((regPay / total) * 100);
+        otPercent = 100 - regPercent;
+      } else {
+        regPercent = 100;
+        otPercent = 0;
+      }
+
+      if (shareRegPercent) shareRegPercent.textContent = regPercent + '% Reg';
+      if (shareOtPercent) shareOtPercent.textContent = otPercent + '% OT';
+      if (barRegular) barRegular.style.width = regPercent + '%';
+      if (barOvertime) barOvertime.style.width = otPercent + '%';
+    }
+
+    function updateState(value) {
+      const s = STATES[value] || STATES.federal;
+      if (multHint) multHint.textContent  = s.hint;
+      if (infoTitle) infoTitle.textContent = s.title;
+      if (infoText) infoText.textContent  = s.text;
+      if (banner) {
+        banner.innerHTML      = s.banner || '';
+        banner.hidden         = !s.banner;
+      }
+    }
+
+    // Custom select operations
+    let isSelectOpen = false;
+
+    function toggleSelect() {
+      if (isSelectOpen) {
+        closeSelect();
+      } else {
+        openSelect();
+      }
+    }
+
+    function openSelect() {
+      if (!customOptionsContainer) return;
+      isSelectOpen = true;
+      customTrigger.setAttribute('aria-expanded', 'true');
+      customOptionsContainer.classList.remove('hidden');
+      
+      if (window.gsap) {
+        window.gsap.killTweensOf(customOptionsContainer);
+        window.gsap.fromTo(customOptionsContainer, 
+          { opacity: 0, scale: 0.95, y: -5 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.2, ease: 'power2.out' }
+        );
+        window.gsap.to(customChevron, { rotate: 180, duration: 0.2, ease: 'power2.out' });
+      } else {
+        customOptionsContainer.style.opacity = '1';
+        customOptionsContainer.style.transform = 'scale(1) translateY(0)';
+        customChevron.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function closeSelect() {
+      if (!customOptionsContainer) return;
+      isSelectOpen = false;
+      customTrigger.setAttribute('aria-expanded', 'false');
+      
+      if (window.gsap) {
+        window.gsap.killTweensOf(customOptionsContainer);
+        window.gsap.to(customOptionsContainer, { 
+          opacity: 0, 
+          scale: 0.95, 
+          y: -5,
+          duration: 0.15, 
+          ease: 'power2.in',
+          onComplete: () => {
+            customOptionsContainer.classList.add('hidden');
+          }
+        });
+        window.gsap.to(customChevron, { rotate: 0, duration: 0.15, ease: 'power2.in' });
+      } else {
+        customOptionsContainer.classList.add('hidden');
+        customChevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    if (customTrigger) {
+      customTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSelect();
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (isSelectOpen && customOptionsContainer && !customOptionsContainer.contains(e.target) && e.target !== customTrigger) {
+        closeSelect();
+      }
+    });
+
+    customOptions.forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = opt.getAttribute('data-value');
+        const text = opt.querySelector('span').textContent;
+
+        if (stateSelect) {
+          stateSelect.value = val;
+          stateSelect.dispatchEvent(new Event('change'));
+        }
+
+        if (customSelectValueText) {
+          customSelectValueText.textContent = text;
+        }
+
+        customOptions.forEach(o => {
+          const check = o.querySelector('.check-icon');
+          if (o === opt) {
+            o.setAttribute('aria-selected', 'true');
+            o.classList.remove('font-semibold', 'text-t2');
+            o.classList.add('font-bold', 'text-t1');
+            if (check) check.classList.remove('hidden');
+          } else {
+            o.setAttribute('aria-selected', 'false');
+            o.classList.remove('font-bold', 'text-t1');
+            o.classList.add('font-semibold', 'text-t2');
+            if (check) check.classList.add('hidden');
+          }
+        });
+
+        closeSelect();
+      });
+    });
+
+    function showResults() {
+      if (!inputsPanel || !resultsPanel || !cardBody) return;
+
+      isCalculated = true;
+
+      // Calculate heights and animate
+      const currentHeight = cardBody.offsetHeight;
+      cardBody.style.height = currentHeight + 'px';
+      cardBody.style.overflow = 'hidden';
+
+      // Set results panel visible but transparent to measure it
+      resultsPanel.style.display = 'flex';
+      resultsPanel.style.opacity = '0';
+      resultsPanel.style.position = 'absolute';
+      resultsPanel.style.width = '100%';
+      resultsPanel.style.top = '0';
+      resultsPanel.style.left = '0';
+
+      const targetHeight = resultsPanel.scrollHeight;
+
+      if (window.gsap) {
+        window.gsap.to(inputsPanel, {
+          opacity: 0,
+          y: -10,
+          duration: 0.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            inputsPanel.style.display = 'none';
+
+            window.gsap.to(cardBody, {
+              height: targetHeight,
+              duration: 0.3,
+              ease: 'power3.inOut',
+              onComplete: () => {
+                resultsPanel.style.position = 'relative';
+                resultsPanel.style.width = '';
+                resultsPanel.style.top = '';
+                resultsPanel.style.left = '';
+                cardBody.style.height = 'auto';
+                cardBody.style.overflow = '';
+              }
+            });
+
+            window.gsap.fromTo(resultsPanel,
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }
+            );
+          }
+        });
+      } else {
+        inputsPanel.style.display = 'none';
+        inputsPanel.style.opacity = '0';
+        resultsPanel.style.display = 'flex';
+        resultsPanel.style.opacity = '1';
+        resultsPanel.style.position = 'relative';
+        cardBody.style.height = 'auto';
+      }
+
+      // Show back button in header
+      if (backBtn) {
+        backBtn.classList.remove('hidden');
+        backBtn.classList.add('flex');
+        if (window.gsap) {
+          window.gsap.fromTo(backBtn, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.2 });
+        } else {
+          backBtn.style.opacity = '1';
+        }
+      }
+    }
+
+    function hideResults() {
+      if (!inputsPanel || !resultsPanel || !cardBody) return;
+
+      isCalculated = false;
+
+      const currentHeight = cardBody.offsetHeight;
+      cardBody.style.height = currentHeight + 'px';
+      cardBody.style.overflow = 'hidden';
+
+      // Set inputs panel visible but transparent to measure it
+      inputsPanel.style.display = 'flex';
+      inputsPanel.style.opacity = '0';
+      inputsPanel.style.position = 'absolute';
+      inputsPanel.style.width = '100%';
+      inputsPanel.style.top = '0';
+      inputsPanel.style.left = '0';
+
+      const targetHeight = inputsPanel.scrollHeight;
+
+      // Hide back button in header
+      if (backBtn) {
+        if (window.gsap) {
+          window.gsap.to(backBtn, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.15,
+            onComplete: () => {
+              backBtn.classList.add('hidden');
+              backBtn.classList.remove('flex');
+            }
+          });
+        } else {
+          backBtn.classList.add('hidden');
+          backBtn.classList.remove('flex');
+        }
+      }
+
+      if (window.gsap) {
+        window.gsap.to(resultsPanel, {
+          opacity: 0,
+          y: 10,
+          duration: 0.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            resultsPanel.style.display = 'none';
+
+            window.gsap.to(cardBody, {
+              height: targetHeight,
+              duration: 0.3,
+              ease: 'power3.inOut',
+              onComplete: () => {
+                inputsPanel.style.position = 'relative';
+                inputsPanel.style.width = '';
+                inputsPanel.style.top = '';
+                inputsPanel.style.left = '';
+                cardBody.style.height = 'auto';
+                cardBody.style.overflow = '';
+              }
+            });
+
+            window.gsap.fromTo(inputsPanel,
+              { opacity: 0, y: -10 },
+              { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }
+            );
+          }
+        });
+      } else {
+        resultsPanel.style.display = 'none';
+        resultsPanel.style.opacity = '0';
+        inputsPanel.style.display = 'flex';
+        inputsPanel.style.opacity = '1';
+        inputsPanel.style.position = 'relative';
+        cardBody.style.height = 'auto';
+      }
+    }
+
+    function ensureCalculated() {
+      if (!isCalculated) {
+        calc();
+        isCalculated = true;
+        showResults();
+      }
+    }
+
+    if (stateSelect) {
+      stateSelect.addEventListener('change', e => {
+        updateState(e.target.value);
+        if (isCalculated) {
+          calc();
+        }
+      });
+    }
+
+    function onInputChange() {
+      if (isCalculated) {
+        calc();
+      }
+    }
+
+    if (rateEl) rateEl.addEventListener('input', onInputChange);
+    if (hoursEl) hoursEl.addEventListener('input', onInputChange);
+
+    multBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        multBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        mult = parseFloat(btn.dataset.mult || '1.5');
+        if (isCalculated) {
+          calc();
+        }
+      });
+    });
+
+    if (calcBtn) {
+      calcBtn.addEventListener('click', () => {
+        calc();
+        showResults();
+      });
+    }
+
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        hideResults();
+      });
+    }
+
+    if (recalculateBtn) {
+      recalculateBtn.addEventListener('click', () => {
+        hideResults();
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (rateEl) rateEl.value = '15';
+        if (hoursEl) hoursEl.value = '8';
+        mult = 1.5;
+        multBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+          if (b.dataset.mult === '1.5') {
+            b.classList.add('active');
+            b.setAttribute('aria-pressed', 'true');
+          }
+        });
+        if (stateSelect) {
+          stateSelect.value = 'federal';
+        }
+        updateState('federal');
+        
+        // Sync custom select display state
+        if (customSelectValueText) {
+          customSelectValueText.textContent = 'Federal (FLSA)';
+        }
+        customOptions.forEach(o => {
+          const check = o.querySelector('.check-icon');
+          if (o.getAttribute('data-value') === 'federal') {
+            o.setAttribute('aria-selected', 'true');
+            o.classList.remove('font-semibold', 'text-t2');
+            o.classList.add('font-bold', 'text-t1');
+            if (check) check.classList.remove('hidden');
+          } else {
+            o.setAttribute('aria-selected', 'false');
+            o.classList.remove('font-bold', 'text-t1');
+            o.classList.add('font-semibold', 'text-t2');
+            if (check) check.classList.add('hidden');
+          }
+        });
+
+        calc();
+        if (isCalculated) {
+          hideResults();
+        }
+      });
+    }
+
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        ensureCalculated();
+        window.print();
+      });
+    }
+    
+    function handleCopy() {
+      ensureCalculated();
+      if (!rateEl || !hoursEl || !otPayEl || !otRateCard || !regPayEl || !totPayEl) return;
+      const text = `Overtime Calculation:
+Rate: $${parseFloat(rateEl.value).toFixed(2)}/hr
+OT Hours: ${hoursEl.value} hrs
+OT Multiplier: ${mult}x
+------------------------
+OT Pay: ${otPayEl.textContent}
+OT Rate/hr: ${otRateCard.textContent}
+Regular Pay: ${regPayEl.textContent}
+Total Weekly: ${totPayEl.textContent}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        if (copyBtn) {
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<span class="text-[10px] font-bold">Copied!</span>';
+          setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000);
+        }
+        if (resultsCopyBtnText) {
+          const originalText = resultsCopyBtnText.textContent;
+          resultsCopyBtnText.textContent = 'Copied!';
+          setTimeout(() => { resultsCopyBtnText.textContent = originalText; }, 2000);
+        }
+      });
+    }
+
+    if (copyBtn) copyBtn.addEventListener('click', handleCopy);
+    if (resultsCopyBtn) resultsCopyBtn.addEventListener('click', handleCopy);
+
+    // Pre-load default values in inputs
+    calc();
+  })();
+</script>

@@ -1,0 +1,60 @@
+---
+const rates = [
+  { rate: 10.00, th: 15.00, dt: 20.00, h8: 120.00, h10: 150.00, total: 520.00 },
+  { rate: 11.00, th: 16.50, dt: 22.00, h8: 132.00, h10: 165.00, total: 572.00 },
+  { rate: 12.00, th: 18.00, dt: 24.00, h8: 144.00, h10: 180.00, total: 624.00 },
+  { rate: 13.00, th: 19.50, dt: 26.00, h8: 156.00, h10: 195.00, total: 676.00 },
+  { rate: 14.00, th: 21.00, dt: 28.00, h8: 168.00, h10: 210.00, total: 728.00 },
+  { rate: 15.00, th: 22.50, dt: 30.00, h8: 180.00, h10: 225.00, total: 780.00 },
+  { rate: 16.00, th: 24.00, dt: 32.00, h8: 192.00, h10: 240.00, total: 832.00 },
+  { rate: 17.00, th: 25.50, dt: 34.00, h8: 204.00, h10: 255.00, total: 884.00 },
+  { rate: 18.00, th: 27.00, dt: 36.00, h8: 216.00, h10: 270.00, total: 936.00 },
+  { rate: 19.00, th: 28.50, dt: 38.00, h8: 228.00, h10: 285.00, total: 988.00 },
+  { rate: 20.00, th: 30.00, dt: 40.00, h8: 240.00, h10: 300.00, total: 1040.00 },
+  { rate: 22.00, th: 33.00, dt: 44.00, h8: 264.00, h10: 330.00, total: 1144.00 },
+  { rate: 25.00, th: 37.50, dt: 50.00, h8: 300.00, h10: 375.00, total: 1300.00 },
+  { rate: 28.00, th: 42.00, dt: 56.00, h8: 336.00, h10: 420.00, total: 1456.00 },
+  { rate: 30.00, th: 45.00, dt: 60.00, h8: 360.00, h10: 450.00, total: 1560.00 },
+  { rate: 35.00, th: 52.50, dt: 70.00, h8: 420.00, h10: 525.00, total: 1820.00 },
+  { rate: 40.00, th: 60.00, dt: 80.00, h8: 480.00, h10: 600.00, total: 2080.00 },
+  { rate: 45.00, th: 67.50, dt: 90.00, h8: 540.00, h10: 675.00, total: 2340.00 },
+  { rate: 50.00, th: 75.00, dt: 100.00, h8: 600.00, h10: 750.00, total: 2600.00 },
+];
+
+const fmt = (n) => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+---
+<section class="py-24 border-b border-b1" id="rate-chart">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-10">
+    <span class="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-accent mb-2.5">Pay chart</span>
+    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-t1 leading-[1.15] mb-3">Time and a half pay chart</h2>
+    <p class="text-[15px] text-t2 max-w-[600px] leading-[1.7] mb-10">Quick reference for overtime rates at common hourly wages — instantly see your overtime rate and earnings for 8 or 10 OT hours.</p>
+    
+    <div class="overflow-x-auto border border-b1 rounded-xl bg-bg shadow-sm">
+      <table class="w-full border-collapse min-w-[600px]">
+        <thead>
+          <tr class="bg-s2 border-b border-b1">
+            <th class="px-4 py-3.5 text-[11px] font-bold text-t3 uppercase tracking-wider text-left">Hourly Rate</th>
+            <th class="px-4 py-3.5 text-[11px] font-bold text-t3 uppercase tracking-wider text-right">Time & Half (1.5×)</th>
+            <th class="px-4 py-3.5 text-[11px] font-bold text-t3 uppercase tracking-wider text-right">Double Time (2×)</th>
+            <th class="px-4 py-3.5 text-[11px] font-bold text-t3 uppercase tracking-wider text-right">8 hrs OT pay</th>
+            <th class="px-4 py-3.5 text-[11px] font-bold text-t3 uppercase tracking-wider text-right">10 hrs OT pay</th>
+            <th class="px-4 py-3.5 text-[11px] font-bold text-t3 uppercase tracking-wider text-right">Weekly total (8 OT hrs)</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-b1">
+          {rates.map((r) => (
+            <tr class="hover:bg-s2 transition-colors">
+              <td class="px-4 py-3 text-sm font-semibold text-t1">{fmt(r.rate)}</td>
+              <td class="px-4 py-3 text-sm text-green font-bold text-right tabular-nums">{fmt(r.th)}</td>
+              <td class="px-4 py-3 text-sm text-accent font-bold text-right tabular-nums">{fmt(r.dt)}</td>
+              <td class="px-4 py-3 text-sm text-t2 text-right tabular-nums">{fmt(r.h8)}</td>
+              <td class="px-4 py-3 text-sm text-t2 text-right tabular-nums">{fmt(r.h10)}</td>
+              <td class="px-4 py-3 text-sm text-t2 text-right tabular-nums font-medium">{fmt(r.total)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="text-[12px] text-t3 mt-4">Weekly total = 40 hrs regular + 8 hrs OT at 1.5×. Pre-tax estimates.</p>
+  </div>
+</section>
