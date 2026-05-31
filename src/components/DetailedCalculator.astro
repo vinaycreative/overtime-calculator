@@ -1,0 +1,873 @@
+---
+---
+<!-- SINGLE CALCULATOR CARD (In-Place View Transitions, Centered) -->
+<div class="calc-card w-full max-w-4xl mx-auto bg-bg border border-b1 rounded-2xl transition-colors shadow-sm relative overflow-hidden" id="detailed-calc-card">
+  
+  <!-- CARD HEADER BAR -->
+  <div class="flex items-center justify-between gap-3 px-6 py-4 border-b border-b1 bg-s2">
+    <div class="flex items-center gap-2">
+      <span class="text-[15px] font-bold text-t1 tracking-tight" id="det-card-title">Pay Calculator</span>
+    </div>
+
+    <div class="flex items-center gap-2.5">
+      <!-- Reset button in header -->
+      <button type="button" id="det-reset-btn" class="flex items-center gap-1.5 h-8 px-2.5 bg-s1/50 border border-b1 rounded-lg text-xs font-semibold text-t2 hover:bg-s2 hover:text-t1 transition-all active:scale-95 cursor-pointer shadow-xs" title="Reset all inputs">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+        <span class="hidden sm:inline">Reset</span>
+      </button>
+
+      <!-- Custom Currency Dropdown -->
+      <div class="relative inline-block text-left" id="det-currency-dropdown-container">
+        <!-- Hidden real select to maintain compatibility with calculation triggers -->
+        <select id="det-currency-select" class="hidden">
+          <option value="USD" data-symbol="$">USD ($)</option>
+          <option value="EUR" data-symbol="€">EUR (€)</option>
+          <option value="GBP" data-symbol="£">GBP (£)</option>
+          <option value="INR" data-symbol="₹">INR (₹)</option>
+          <option value="CAD" data-symbol="$">CAD ($)</option>
+          <option value="AUD" data-symbol="$">AUD ($)</option>
+        </select>
+
+        <button type="button" id="det-currency-trigger" class="flex items-center gap-1.5 h-8 px-3 bg-bg border border-b2 rounded-lg text-xs font-bold text-t1 hover:border-t3 transition-all active:scale-95 cursor-pointer shadow-xs focus:border-green focus:ring-4 focus:ring-green/10" aria-haspopup="listbox" aria-expanded="false">
+          <span id="det-currency-value-symbol" class="text-t3">$</span>
+          <span id="det-currency-value-code">USD</span>
+          <svg class="text-t3 transition-transform duration-200" id="det-currency-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div id="det-currency-options" class="absolute right-0 mt-1.5 w-36 bg-bg/98 backdrop-blur-md border border-b1 rounded-xl shadow-xl z-50 py-1.5 hidden opacity-0 transition-all duration-200 origin-top-right scale-95" role="listbox">
+          <button type="button" role="option" class="det-currency-option w-full px-4 py-2 text-left text-xs font-bold text-t1 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="USD" data-symbol="$" aria-selected="true">
+            <span>USD ($)</span>
+            <svg class="check-icon text-green w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <button type="button" role="option" class="det-currency-option w-full px-4 py-2 text-left text-xs font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="EUR" data-symbol="€" aria-selected="false">
+            <span>EUR (€)</span>
+            <svg class="check-icon text-green w-3.5 h-3.5 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <button type="button" role="option" class="det-currency-option w-full px-4 py-2 text-left text-xs font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="GBP" data-symbol="£" aria-selected="false">
+            <span>GBP (£)</span>
+            <svg class="check-icon text-green w-3.5 h-3.5 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <button type="button" role="option" class="det-currency-option w-full px-4 py-2 text-left text-xs font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="INR" data-symbol="₹" aria-selected="false">
+            <span>INR (₹)</span>
+            <svg class="check-icon text-green w-3.5 h-3.5 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <button type="button" role="option" class="det-currency-option w-full px-4 py-2 text-left text-xs font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="CAD" data-symbol="$" aria-selected="false">
+            <span>CAD ($)</span>
+            <svg class="check-icon text-green w-3.5 h-3.5 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <button type="button" role="option" class="det-currency-option w-full px-4 py-2 text-left text-xs font-semibold text-t2 hover:bg-s2 flex items-center justify-between cursor-pointer transition-colors" data-value="AUD" data-symbol="$" aria-selected="false">
+            <span>AUD ($)</span>
+            <svg class="check-icon text-green w-3.5 h-3.5 hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="det-calc-body" class="relative transition-all duration-300">
+    
+    <!-- INPUTS VIEW -->
+    <div id="det-inputs-panel" class="flex flex-col p-6 sm:p-8 gap-6 sm:gap-8">
+      
+      <!-- Frequency Selector -->
+      <div>
+        <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" id="freq-label">Pay Frequency</label>
+        <div class="flex bg-s1 p-1 rounded-xl border border-b1 gap-0.5" role="group" aria-labelledby="freq-label">
+          <button class="freq-btn h-10 flex-1 rounded-lg text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center active bg-bg shadow-xs text-t1" data-freq="hourly">Hourly</button>
+          <button class="freq-btn h-10 flex-1 rounded-lg text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center hover:text-t1" data-freq="daily">Daily</button>
+          <button class="freq-btn h-10 flex-1 rounded-lg text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center hover:text-t1" data-freq="weekly">Weekly</button>
+          <button class="freq-btn h-10 flex-1 rounded-lg text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center hover:text-t1" data-freq="monthly">Monthly</button>
+          <button class="freq-btn h-10 flex-1 rounded-lg text-[13px] font-bold text-t3 cursor-pointer transition-all flex items-center justify-center hover:text-t1" data-freq="yearly">Yearly</button>
+        </div>
+      </div>
+
+      <!-- Row 1: Pay Rate & Standard Hours -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        
+        <!-- Pay Rate -->
+        <div>
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" id="det-pay-label">Hourly Pay Rate</label>
+          <div class="relative flex items-center shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+            <span class="absolute left-4 text-base font-bold text-t3 pointer-events-none select-none det-cur-symbol" aria-hidden="true">$</span>
+            <input type="number" id="det-pay-input" inputmode="decimal"
+              min="0" max="99999999" step="0.01" value=""
+              class="w-full h-12 bg-transparent border-none text-lg font-bold text-t1 pl-9 pr-14 outline-none caret-green appearance-none focus:ring-0"
+              placeholder="0.00" autocomplete="off" aria-label="Pay rate" />
+            <span class="absolute right-4 text-[11px] font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" id="det-pay-unit" aria-hidden="true">/ hr</span>
+          </div>
+        </div>
+
+        <!-- Standard Hours -->
+        <div id="det-standard-hours-wrapper">
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" id="det-hours-label">Standard Hours / Week</label>
+          <div class="relative flex items-center shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+            <input type="number" id="det-hours-input" inputmode="decimal"
+              min="0" max="168" step="0.5" value=""
+              class="w-full h-12 bg-transparent border-none text-lg font-bold text-t1 px-4 pr-12 outline-none caret-green appearance-none focus:ring-0"
+              placeholder="40" autocomplete="off" aria-label="Standard hours" />
+            <span class="absolute right-4 text-[11px] font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" aria-hidden="true">hrs</span>
+          </div>
+        </div>
+        
+        <!-- Daily Hours Grid (Alternative to Standard Hours) -->
+        <div id="det-daily-hours-wrapper" class="hidden grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2">Hours / Day</label>
+            <div class="relative flex items-center shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+              <input type="number" id="det-hours-day" inputmode="decimal" min="0.1" max="24" step="0.5" value="" placeholder="8"
+                class="w-full h-12 bg-transparent border-none text-lg font-bold text-t1 px-4 pr-12 outline-none caret-green appearance-none focus:ring-0" autocomplete="off" />
+              <span class="absolute right-4 text-[11px] font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" aria-hidden="true">hrs</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2">Days / Week</label>
+            <div class="relative flex items-center shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+              <input type="number" id="det-days-week" inputmode="decimal" min="1" max="7" step="1" value="" placeholder="5"
+                class="w-full h-12 bg-transparent border-none text-lg font-bold text-t1 px-4 pr-12 outline-none caret-green appearance-none focus:ring-0" autocomplete="off" />
+              <span class="absolute right-4 text-[11px] font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" aria-hidden="true">days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Overtime Hours & Multiplier -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        
+        <!-- Overtime Hours -->
+        <div>
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2">Overtime Hours</label>
+          <div class="relative flex items-center shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+            <input type="number" id="det-ot-hours" inputmode="decimal"
+              min="0" max="168" step="0.5" value=""
+              class="w-full h-12 bg-transparent border-none text-lg font-bold text-t1 px-4 pr-12 outline-none caret-green appearance-none focus:ring-0"
+              placeholder="0" autocomplete="off" aria-label="Overtime hours" />
+            <span class="absolute right-4 text-[11px] font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" aria-hidden="true">hrs</span>
+          </div>
+        </div>
+
+        <!-- Custom Multiplier UI -->
+        <div>
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2">Overtime Multiplier</label>
+          <div class="h-12 flex items-center justify-between px-2 shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+            <button type="button" id="det-mult-minus" class="w-10 h-8 flex items-center justify-center text-t2 hover:text-t1 hover:bg-s2 rounded-lg transition-all active:scale-95 cursor-pointer" aria-label="Decrease multiplier">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="flex items-center justify-center">
+              <input type="number" id="det-custom-mult-input" inputmode="decimal" min="0.1" max="10" step="0.05" value="1.50"
+                class="w-14 bg-transparent border-none text-center text-lg font-extrabold text-t1 focus:ring-0 focus:outline-none p-0 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" aria-label="Overtime multiplier" />
+              <span class="text-xs font-bold text-t3 ml-0.5">×</span>
+            </div>
+            <button type="button" id="det-mult-plus" class="w-10 h-8 flex items-center justify-center text-t2 hover:text-t1 hover:bg-s2 rounded-lg transition-all active:scale-95 cursor-pointer" aria-label="Increase multiplier">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- Double Time Option -->
+      <div class="bg-bg border border-b2 rounded-xl p-4 transition-all shadow-xs">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="block text-[14px] font-bold text-t1 tracking-tight">Double-Time Rate</span>
+            <span class="block text-[11px] text-t3 font-medium mt-0.5">Include hours paid at 2.0× rate</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer select-none">
+            <input type="checkbox" id="det-dt-checkbox" class="sr-only peer" />
+            <div class="w-10 h-6 bg-s2 border border-b2 rounded-full peer peer-checked:bg-green peer-checked:border-green after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-bg after:border after:border-b2 peer-checked:after:border-transparent after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-4 transition-colors duration-200 shadow-sm"></div>
+          </label>
+        </div>
+
+        <div id="det-dt-hours-wrapper" class="hidden overflow-hidden transition-all duration-300 mt-4 pt-4 border-t border-b1">
+          <label class="block text-[11px] font-bold text-t3 uppercase tracking-[0.08em] mb-2" for="det-dt-hours">Double-time Hours (2.0×)</label>
+          <div class="relative flex items-center shadow-xs rounded-xl border border-b2 bg-bg hover:border-t3 focus-within:border-green focus-within:ring-4 focus-within:ring-green/10 transition-all">
+            <input type="number" id="det-dt-hours" inputmode="decimal"
+              min="0" max="168" step="0.5" value=""
+              class="w-full h-12 bg-transparent border-none text-lg font-bold text-t1 px-4 pr-12 outline-none caret-green appearance-none focus:ring-0"
+              placeholder="0" autocomplete="off" aria-label="Double time hours" />
+            <span class="absolute right-4 text-[11px] font-bold text-t3 pointer-events-none select-none uppercase tracking-wider" aria-hidden="true">hrs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculate Button -->
+      <button type="button" id="det-calc-trigger" class="group w-full h-12 bg-green text-bg font-bold rounded-xl text-base shadow-sm hover:bg-green/95 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer mt-2">
+        <span>Calculate Detailed Pay</span>
+        <svg class="group-hover:translate-x-1 transition-transform duration-200" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- RESULTS VIEW -->
+    <div id="det-results-panel" class="flex flex-col p-6 sm:p-8 gap-6 sm:gap-8 transition-all duration-300" style="display: none; opacity: 0;">
+      
+      <!-- Cycle Selector -->
+      <div class="grid grid-cols-1 md:grid-cols-2 items-start md:items-end mb-4 border-b border-b1 gap-4 pb-4">
+        <div class="flex flex-col">
+          <span class="block text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-1">Calculation Results</span>
+          <div class="flex items-center gap-2">
+            <h3 class="text-xl font-extrabold text-t1 tracking-tight leading-none">Earnings Dashboard</h3>
+            <span class="px-2 py-0.5 bg-green/10 text-green text-[9px] font-bold rounded-full uppercase tracking-wider">Active</span>
+          </div>
+        </div>
+        
+        <div class="flex bg-s1 p-1 rounded-lg border border-b1 w-full">
+          <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold text-t3 transition-all flex items-center justify-center active bg-bg shadow-sm text-t1" data-cycle="weekly">Weekly</button>
+          <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold text-t3 transition-all flex items-center justify-center hover:text-t1" data-cycle="monthly">Monthly</button>
+          <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold text-t3 transition-all flex items-center justify-center hover:text-t1" data-cycle="yearly">Yearly</button>
+        </div>
+      </div>
+
+      <!-- Hero Total Card -->
+      <div class="bg-bg border border-b2 rounded-xl p-5 sm:p-6 shadow-sm">
+        <div class="flex items-end justify-between mb-4">
+          <div>
+            <span class="block text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-1" id="hero-earnings-label">Total Weekly Gross Pay</span>
+            <div class="text-4xl sm:text-5xl font-extrabold text-t1 tabular-nums leading-none tracking-tight flex items-baseline">
+              <span class="det-cur-symbol mr-1 text-3xl">$</span>
+              <span id="res-total-gross">0.00</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="block text-[10px] font-bold text-t3 uppercase tracking-wider mb-1">Total Hours</span>
+            <div class="text-2xl font-bold text-t1 tabular-nums" id="res-total-hours">0.0</div>
+          </div>
+        </div>
+
+        <!-- Integrated Progress Bar -->
+        <div class="w-full h-3 bg-s2 rounded-full overflow-hidden flex mb-3">
+          <div id="bar-reg" class="h-full bg-t1 opacity-80 transition-all duration-500" style="width: 100%;"></div>
+          <div id="bar-ot" class="h-full bg-green transition-all duration-500" style="width: 0%;"></div>
+          <div id="bar-dt" class="h-full bg-amber transition-all duration-500" style="width: 0%;"></div>
+        </div>
+        
+        <div class="flex items-center gap-4 text-[11.5px] font-bold text-t3">
+          <span class="flex items-center gap-1.5"><span id="ratio-reg">100% Regular</span></span>
+          <span class="flex items-center gap-1.5"><span id="ratio-ot">0% Overtime</span></span>
+          <span id="ratio-dt-wrap" class="hidden items-center gap-1.5"><span id="ratio-dt">0% Double-time</span></span>
+        </div>
+      </div>
+
+      <!-- Breakdown Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+        
+        <!-- Overtime Pay -->
+        <div class="bg-bg border border-b2 rounded-xl p-5 flex flex-col justify-between shadow-xs">
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Overtime Pay</span>
+          <div>
+            <div class="text-2xl font-extrabold text-green tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
+              <span class="det-cur-symbol mr-0.5">$</span>
+              <span id="res-ot-pay">0.00</span>
+            </div>
+            <span class="text-[11.5px] font-medium text-t3" id="res-ot-sub">0.0 hrs at $0.00/hr</span>
+          </div>
+        </div>
+
+        <!-- Regular Pay -->
+        <div class="bg-bg border border-b2 rounded-xl p-5 flex flex-col justify-between shadow-xs">
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Regular Pay</span>
+          <div>
+            <div class="text-2xl font-extrabold text-t1 tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
+              <span class="det-cur-symbol mr-0.5">$</span>
+              <span id="res-reg-pay">0.00</span>
+            </div>
+            <span class="text-[11.5px] font-medium text-t3" id="res-reg-sub">40.0 hrs at $0.00/hr</span>
+          </div>
+        </div>
+
+        <!-- Double Time Pay -->
+        <div id="res-dt-card" class="bg-bg border border-b2 hover:border-amber/45 transition-all duration-200 rounded-xl p-5 flex flex-col justify-between shadow-xs hidden">
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Double-Time Pay</span>
+          <div>
+            <div class="text-2xl font-extrabold text-amber tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
+              <span class="det-cur-symbol mr-0.5">$</span>
+              <span id="res-dt-pay">0.00</span>
+            </div>
+            <span class="text-[11.5px] font-medium text-t3" id="res-dt-sub">0.0 hrs at $0.00/hr</span>
+          </div>
+        </div>
+
+        <!-- Effective Hourly Rate -->
+        <div id="res-eff-card" class="bg-bg border border-b2 rounded-xl p-5 flex flex-col justify-between shadow-xs md:col-span-2">
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Effective Hourly Rate</span>
+          <div>
+            <div class="text-2xl font-extrabold text-t1 tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
+              <span class="det-cur-symbol mr-0.5">$</span>
+              <span id="res-effective-rate">0.00</span>
+            </div>
+            <span class="text-[11.5px] font-medium text-t3">Average pay per hour worked</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 mt-2">
+        <button id="det-edit-btn" class="flex-1 h-12 bg-bg border border-b2 text-t1 font-bold rounded-xl text-sm transition-all hover:bg-s1 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer shadow-xs">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Edit Inputs</span>
+        </button>
+        <button id="det-copy-btn" class="flex-1 h-12 bg-t1 text-bg hover:opacity-90 font-bold rounded-xl text-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer shadow-xs">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="det-copy-btn-text">Copy Results</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" is:inline></script>
+<script is:inline>
+  (function() {
+    // Top-level DOM Elements
+    const curTrigger = document.getElementById('det-currency-trigger');
+    const curOptionsContainer = document.getElementById('det-currency-options');
+    const curChevron = document.getElementById('det-currency-chevron');
+    const curSelect = document.getElementById('det-currency-select');
+    const curOptions = document.querySelectorAll('.det-currency-option');
+    const curSymbolTexts = document.querySelectorAll('.det-cur-symbol');
+    const valSymbol = document.getElementById('det-currency-value-symbol');
+    const valCode = document.getElementById('det-currency-value-code');
+
+    const inputsPanel = document.getElementById('det-inputs-panel');
+    const resultsPanel = document.getElementById('det-results-panel');
+    const cardBody = document.getElementById('det-calc-body');
+    const detCardTitle = document.getElementById('det-card-title');
+    const resetBtn = document.getElementById('det-reset-btn');
+
+    // Inputs
+    const freqBtns = document.querySelectorAll('.freq-btn');
+    const payInput = document.getElementById('det-pay-input');
+    const payLabel = document.getElementById('det-pay-label');
+    const payUnit = document.getElementById('det-pay-unit');
+    
+    const standardHoursWrapper = document.getElementById('det-standard-hours-wrapper');
+    const hoursInput = document.getElementById('det-hours-input');
+    const hoursLabel = document.getElementById('det-hours-label');
+    
+    const dailyHoursWrapper = document.getElementById('det-daily-hours-wrapper');
+
+    const hoursDayInput = document.getElementById('det-hours-day');
+    const daysWeekInput = document.getElementById('det-days-week');
+
+    const otHoursInput = document.getElementById('det-ot-hours');
+    
+    const multMinusBtn = document.getElementById('det-mult-minus');
+    const multPlusBtn = document.getElementById('det-mult-plus');
+    const customMultInput = document.getElementById('det-custom-mult-input');
+
+    const dtCheckbox = document.getElementById('det-dt-checkbox');
+    const dtHoursWrapper = document.getElementById('det-dt-hours-wrapper');
+    const dtHoursInput = document.getElementById('det-dt-hours');
+
+    const calcTriggerBtn = document.getElementById('det-calc-trigger');
+
+    // Results Panel Elements
+    const cycleBtns = document.querySelectorAll('.cycle-btn');
+    const heroEarningsLabel = document.getElementById('hero-earnings-label');
+    const resTotalGross = document.getElementById('res-total-gross');
+    const resTotalHours = document.getElementById('res-total-hours');
+    
+    const barReg = document.getElementById('bar-reg');
+    const barOt = document.getElementById('bar-ot');
+    const barDt = document.getElementById('bar-dt');
+    
+    const ratioReg = document.getElementById('ratio-reg');
+    const ratioOt = document.getElementById('ratio-ot');
+    const ratioDt = document.getElementById('ratio-dt');
+    const ratioDtWrap = document.getElementById('ratio-dt-wrap');
+
+    const resRegPay = document.getElementById('res-reg-pay');
+    const resRegSub = document.getElementById('res-reg-sub');
+    
+    const resOtPay = document.getElementById('res-ot-pay');
+    const resOtSub = document.getElementById('res-ot-sub');
+
+    const resDtCard = document.getElementById('res-dt-card');
+    const resEffCard = document.getElementById('res-eff-card');
+    const resDtPay = document.getElementById('res-dt-pay');
+    const resDtSub = document.getElementById('res-dt-sub');
+
+    const resEffectiveRate = document.getElementById('res-effective-rate');
+
+    const editBtn = document.getElementById('det-edit-btn');
+    const copyBtn = document.getElementById('det-copy-btn');
+    const copyBtnText = document.getElementById('det-copy-btn-text');
+
+    // State Variables
+    let currentSymbol = '$';
+    let currentFreq = 'hourly';
+    let currentCycle = 'weekly';
+    let isCalculated = false;
+    let isCurOpen = false;
+
+    // --- CURRENCY DROPDOWN ---
+    function toggleCurDropdown() {
+      if (isCurOpen) closeCurDropdown();
+      else openCurDropdown();
+    }
+
+    function openCurDropdown() {
+      if (!curOptionsContainer) return;
+      isCurOpen = true;
+      curTrigger.setAttribute('aria-expanded', 'true');
+      curOptionsContainer.classList.remove('hidden');
+      
+      if (window.gsap) {
+        window.gsap.killTweensOf(curOptionsContainer);
+        window.gsap.fromTo(curOptionsContainer, 
+          { opacity: 0, scale: 0.95, y: -5 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.2, ease: 'power2.out' }
+        );
+        window.gsap.to(curChevron, { rotate: 180, duration: 0.2, ease: 'power2.out' });
+      } else {
+        curOptionsContainer.style.opacity = '1';
+        curChevron.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function closeCurDropdown() {
+      if (!curOptionsContainer) return;
+      isCurOpen = false;
+      curTrigger.setAttribute('aria-expanded', 'false');
+      
+      if (window.gsap) {
+        window.gsap.killTweensOf(curOptionsContainer);
+        window.gsap.to(curOptionsContainer, { 
+          opacity: 0, scale: 0.95, y: -5, duration: 0.15, ease: 'power2.in',
+          onComplete: () => curOptionsContainer.classList.add('hidden')
+        });
+        window.gsap.to(curChevron, { rotate: 0, duration: 0.15, ease: 'power2.in' });
+      } else {
+        curOptionsContainer.classList.add('hidden');
+        curChevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    if (curTrigger) {
+      curTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCurDropdown();
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (isCurOpen && curOptionsContainer && !curOptionsContainer.contains(e.target) && e.target !== curTrigger) {
+        closeCurDropdown();
+      }
+    });
+
+    curOptions.forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const code = opt.getAttribute('data-value');
+        const symbol = opt.getAttribute('data-symbol');
+        
+        currentSymbol = symbol;
+        if (curSelect) curSelect.value = code;
+        if (valSymbol) valSymbol.textContent = symbol;
+        if (valCode) valCode.textContent = code;
+
+        curSymbolTexts.forEach(el => el.textContent = symbol);
+
+        curOptions.forEach(o => {
+          const check = o.querySelector('.check-icon');
+          if (o === opt) {
+            o.setAttribute('aria-selected', 'true');
+            o.classList.remove('text-t2', 'font-semibold');
+            o.classList.add('text-t1', 'font-bold');
+            if (check) check.classList.remove('hidden');
+          } else {
+            o.setAttribute('aria-selected', 'false');
+            o.classList.remove('text-t1', 'font-bold');
+            o.classList.add('text-t2', 'font-semibold');
+            if (check) check.classList.add('hidden');
+          }
+        });
+
+        closeCurDropdown();
+        if (isCalculated) calculateAndRender();
+      });
+    });
+
+    // --- INPUT INTERACTIONS ---
+    freqBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        freqBtns.forEach(b => {
+          b.classList.remove('active', 'bg-bg', 'shadow-xs', 'text-t1');
+          b.classList.add('hover:text-t1');
+        });
+        btn.classList.add('active', 'bg-bg', 'shadow-xs', 'text-t1');
+        btn.classList.remove('hover:text-t1');
+        
+        currentFreq = btn.getAttribute('data-freq');
+        
+        if (currentFreq === 'hourly' || currentFreq === 'weekly' || currentFreq === 'monthly' || currentFreq === 'yearly') {
+          if (currentFreq === 'hourly') { payLabel.textContent = 'Hourly Pay Rate'; payUnit.textContent = '/ hr'; }
+          else if (currentFreq === 'weekly') { payLabel.textContent = 'Weekly Pay Rate'; payUnit.textContent = '/ wk'; }
+          else if (currentFreq === 'monthly') { payLabel.textContent = 'Monthly Salary'; payUnit.textContent = '/ mo'; }
+          else if (currentFreq === 'yearly') { payLabel.textContent = 'Annual Salary'; payUnit.textContent = '/ yr'; }
+          
+          standardHoursWrapper.classList.remove('hidden');
+          standardHoursWrapper.classList.add('block');
+          dailyHoursWrapper.classList.add('hidden');
+          dailyHoursWrapper.classList.remove('grid');
+          hoursInput.placeholder = '40';
+        } else if (currentFreq === 'daily') {
+          payLabel.textContent = 'Daily Pay Rate';
+          payUnit.textContent = '/ day';
+          
+          standardHoursWrapper.classList.add('hidden');
+          standardHoursWrapper.classList.remove('block');
+          dailyHoursWrapper.classList.remove('hidden');
+          dailyHoursWrapper.classList.add('grid');
+        }
+      });
+    });
+
+    if (multMinusBtn && customMultInput) {
+      multMinusBtn.addEventListener('click', () => {
+        let val = parseFloat(customMultInput.value) || 1.5;
+        val = Math.max(0.1, Math.round((val - 0.05) * 100) / 100);
+        customMultInput.value = val.toFixed(2);
+      });
+    }
+
+    if (multPlusBtn && customMultInput) {
+      multPlusBtn.addEventListener('click', () => {
+        let val = parseFloat(customMultInput.value) || 1.5;
+        val = Math.min(10.0, Math.round((val + 0.05) * 100) / 100);
+        customMultInput.value = val.toFixed(2);
+      });
+    }
+
+    if (dtCheckbox) {
+      dtCheckbox.addEventListener('change', () => {
+        if (dtCheckbox.checked) {
+          dtHoursWrapper.classList.remove('hidden');
+          if (window.gsap) {
+            window.gsap.fromTo(dtHoursWrapper, { height: 0, opacity: 0 }, { height: 'auto', opacity: 1, duration: 0.3, ease: 'power2.out' });
+          }
+        } else {
+          dtHoursInput.value = '';
+          if (window.gsap) {
+            window.gsap.to(dtHoursWrapper, { 
+              height: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
+              onComplete: () => dtHoursWrapper.classList.add('hidden')
+            });
+          } else {
+            dtHoursWrapper.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    // --- LOGIC ---
+    function fmt(val) {
+      return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function calculateAndRender() {
+      const payAmount = Math.max(0, parseFloat(payInput.value) || 0);
+      
+      let H = 0;
+      let d_w = 5; 
+
+      if (currentFreq === 'hourly') {
+        H = Math.max(0, hoursInput.value !== '' ? parseFloat(hoursInput.value) : 40);
+      } else if (currentFreq === 'daily') {
+        const h_d = Math.max(0.1, hoursDayInput.value !== '' ? parseFloat(hoursDayInput.value) : 8);
+        d_w = Math.max(1, daysWeekInput.value !== '' ? parseFloat(daysWeekInput.value) : 5);
+        H = h_d * d_w;
+      } else {
+        H = Math.max(1, hoursInput.value !== '' ? parseFloat(hoursInput.value) : 40);
+      }
+
+      const otHours = Math.max(0, parseFloat(otHoursInput.value) || 0);
+      const dtHours = Math.max(0, parseFloat(dtHoursInput.value) || 0);
+      const activeMultiplier = Math.max(0.1, parseFloat(customMultInput.value) || 1.5);
+
+      let R = 0;
+      if (currentFreq === 'hourly') R = payAmount;
+      else if (currentFreq === 'daily') {
+        const h_d = Math.max(0.1, hoursDayInput.value !== '' ? parseFloat(hoursDayInput.value) : 8);
+        R = payAmount / h_d;
+      } else if (currentFreq === 'weekly') R = payAmount / H;
+      else if (currentFreq === 'monthly') R = (payAmount * 12) / (52 * H);
+      else if (currentFreq === 'yearly') R = payAmount / (52 * H);
+
+      if (!isFinite(R)) R = 0;
+
+      const weeklyRegPay = H * R;
+      const weeklyOtPay = otHours * (R * activeMultiplier);
+      const weeklyDtPay = dtHours * (R * 2.0);
+      const weeklyTotalHours = H + otHours + dtHours;
+      const weeklyTotalGross = weeklyRegPay + weeklyOtPay + weeklyDtPay;
+      
+      let effectiveRate = weeklyTotalHours > 0 ? weeklyTotalGross / weeklyTotalHours : 0;
+
+      let displayScale = 1;
+      let displayLabel = 'Total Weekly Gross Pay';
+      if (currentCycle === 'weekly') { displayScale = 1; displayLabel = 'Total Weekly Gross Pay'; }
+      else if (currentCycle === 'monthly') { displayScale = 52 / 12; displayLabel = 'Total Monthly Gross Pay'; }
+      else if (currentCycle === 'yearly') { displayScale = 52; displayLabel = 'Total Annual Gross Pay'; }
+
+      let pctReg = weeklyTotalGross > 0 ? (weeklyRegPay / weeklyTotalGross) * 100 : 100;
+      let pctOt = weeklyTotalGross > 0 ? (weeklyOtPay / weeklyTotalGross) * 100 : 0;
+      let pctDt = weeklyTotalGross > 0 ? (weeklyDtPay / weeklyTotalGross) * 100 : 0;
+
+      // Update DOM
+      if (heroEarningsLabel) heroEarningsLabel.textContent = displayLabel;
+      
+      const targetGrossVal = weeklyTotalGross * displayScale;
+
+      if (window.gsap && isCalculated) {
+        let countObj = { val: parseFloat(resTotalGross.textContent.replace(/,/g, '')) || 0 };
+        window.gsap.to(countObj, {
+          val: targetGrossVal, duration: 0.5, ease: 'power2.out',
+          onUpdate: () => resTotalGross.textContent = fmt(countObj.val)
+        });
+        window.gsap.to(barReg, { width: pctReg + '%', duration: 0.5, ease: 'power2.out' });
+        window.gsap.to(barOt, { width: pctOt + '%', duration: 0.5, ease: 'power2.out' });
+        window.gsap.to(barDt, { width: pctDt + '%', duration: 0.5, ease: 'power2.out' });
+      } else {
+        resTotalGross.textContent = fmt(targetGrossVal);
+        barReg.style.width = pctReg + '%';
+        barOt.style.width = pctOt + '%';
+        barDt.style.width = pctDt + '%';
+      }
+
+      resTotalHours.textContent = (weeklyTotalHours * displayScale).toFixed(1);
+
+      ratioReg.textContent = `${pctReg.toFixed(1)}% Regular`;
+      ratioOt.textContent = `${pctOt.toFixed(1)}% Overtime`;
+      ratioDt.textContent = `${pctDt.toFixed(1)}% Double-time`;
+      
+      if (dtHours > 0) {
+        ratioDtWrap.classList.remove('hidden');
+        ratioDtWrap.classList.add('flex');
+        resDtCard.classList.remove('hidden');
+        resEffCard.classList.remove('md:col-span-2');
+      } else {
+        ratioDtWrap.classList.add('hidden');
+        ratioDtWrap.classList.remove('flex');
+        resDtCard.classList.add('hidden');
+        resEffCard.classList.add('md:col-span-2');
+      }
+
+      resRegPay.textContent = fmt(weeklyRegPay * displayScale);
+      resRegSub.textContent = `${(H * displayScale).toFixed(1)} hrs at ${currentSymbol}${fmt(R)}/hr`;
+      
+      resOtPay.textContent = fmt(weeklyOtPay * displayScale);
+      resOtSub.textContent = `${(otHours * displayScale).toFixed(1)} hrs at ${currentSymbol}${fmt(R * activeMultiplier)}/hr`;
+
+      resDtPay.textContent = fmt(weeklyDtPay * displayScale);
+      resDtSub.textContent = `${(dtHours * displayScale).toFixed(1)} hrs at ${currentSymbol}${fmt(R * 2.0)}/hr`;
+
+      resEffectiveRate.textContent = fmt(effectiveRate);
+    }
+
+    // --- VIEW SWITCHING ---
+    function showResults() {
+      const rawPay = payInput.value.trim();
+      if (rawPay === '' || parseFloat(rawPay) <= 0) {
+        // Find parent container to highlight error
+        const parent = payInput.closest('.border-b2');
+        if (parent) parent.classList.add('border-red-500', 'ring-4', 'ring-red-500/10');
+        payInput.focus();
+        return;
+      } else {
+        const parent = payInput.closest('.border-b2');
+        if (parent) parent.classList.remove('border-red-500', 'ring-4', 'ring-red-500/10');
+      }
+
+      isCalculated = true;
+      calculateAndRender();
+
+      resultsPanel.classList.remove('hidden');
+      const currentHeight = cardBody.offsetHeight;
+      cardBody.style.height = currentHeight + 'px';
+      cardBody.style.overflow = 'hidden';
+
+      resultsPanel.style.display = 'flex';
+      resultsPanel.style.opacity = '0';
+      resultsPanel.style.position = 'absolute';
+      resultsPanel.style.width = '100%';
+      resultsPanel.style.top = '0';
+      resultsPanel.style.left = '0';
+      
+      const targetHeight = resultsPanel.scrollHeight;
+
+      if (window.gsap) {
+        window.gsap.to(inputsPanel, {
+          opacity: 0, y: -10, duration: 0.2,
+          onComplete: () => {
+            inputsPanel.classList.add('hidden');
+            resultsPanel.style.opacity = '1';
+
+            window.gsap.to(cardBody, {
+              height: targetHeight, duration: 0.35, ease: 'power3.inOut',
+              onComplete: () => {
+                resultsPanel.style.position = 'relative';
+                resultsPanel.style.width = '';
+                resultsPanel.style.top = '';
+                resultsPanel.style.left = '';
+                cardBody.style.height = 'auto';
+                cardBody.style.overflow = '';
+              }
+            });
+
+            const animElements = Array.from(resultsPanel.children);
+            window.gsap.fromTo(animElements,
+              { opacity: 0, y: 15 },
+              { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out' }
+            );
+
+            // Animate progress bar widths from 0%
+            let wT = parseFloat(resTotalGross.textContent.replace(/,/g, '')) || 1;
+            let pR = parseFloat(resRegPay.textContent.replace(/,/g, '')) / wT * 100;
+            let pO = parseFloat(resOtPay.textContent.replace(/,/g, '')) / wT * 100;
+            let pD = parseFloat(resDtPay.textContent.replace(/,/g, '')) / wT * 100;
+            
+            window.gsap.fromTo(barReg, { width: '0%' }, { width: pR + '%', duration: 0.8, ease: 'power2.out', delay: 0.1 });
+            window.gsap.fromTo(barOt, { width: '0%' }, { width: pO + '%', duration: 0.8, ease: 'power2.out', delay: 0.1 });
+            window.gsap.fromTo(barDt, { width: '0%' }, { width: pD + '%', duration: 0.8, ease: 'power2.out', delay: 0.1 });
+          }
+        });
+
+        if (detCardTitle) detCardTitle.textContent = 'Calculation Result';
+      } else {
+        inputsPanel.classList.add('hidden');
+        resultsPanel.style.opacity = '1';
+        resultsPanel.style.position = 'relative';
+        cardBody.style.height = 'auto';
+        if (detCardTitle) detCardTitle.textContent = 'Calculation Result';
+      }
+    }
+
+    function hideResults() {
+      isCalculated = false;
+      const currentHeight = cardBody.offsetHeight;
+      cardBody.style.height = currentHeight + 'px';
+      cardBody.style.overflow = 'hidden';
+
+      inputsPanel.classList.remove('hidden');
+      inputsPanel.style.opacity = '0';
+      inputsPanel.style.position = 'absolute';
+      inputsPanel.style.width = '100%';
+      inputsPanel.style.top = '0';
+      inputsPanel.style.left = '0';
+
+      const targetHeight = inputsPanel.scrollHeight;
+
+      if (window.gsap) {
+        window.gsap.to(resultsPanel, {
+          opacity: 0, y: 10, duration: 0.2,
+          onComplete: () => {
+            resultsPanel.classList.add('hidden');
+            resultsPanel.style.display = 'none';
+
+            window.gsap.to(cardBody, {
+              height: targetHeight, duration: 0.3, ease: 'power3.inOut',
+              onComplete: () => {
+                inputsPanel.style.position = 'relative';
+                inputsPanel.style.width = '';
+                inputsPanel.style.top = '';
+                inputsPanel.style.left = '';
+                cardBody.style.height = 'auto';
+                cardBody.style.overflow = '';
+              }
+            });
+
+            window.gsap.fromTo(inputsPanel,
+              { opacity: 0, y: -10 },
+              { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }
+            );
+          }
+        });
+
+        if (detCardTitle) detCardTitle.textContent = 'Detailed Calculator';
+      } else {
+        resultsPanel.classList.add('hidden');
+        resultsPanel.style.display = 'none';
+        inputsPanel.classList.remove('hidden');
+        inputsPanel.style.opacity = '1';
+        inputsPanel.style.position = 'relative';
+        cardBody.style.height = 'auto';
+        if (detCardTitle) detCardTitle.textContent = 'Detailed Calculator';
+      }
+    }
+
+    // --- EVENT LISTENERS ---
+    if (calcTriggerBtn) calcTriggerBtn.addEventListener('click', showResults);
+
+    if (editBtn) editBtn.addEventListener('click', hideResults);
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        payInput.value = '';
+        hoursInput.value = '';
+        hoursDayInput.value = '';
+        daysWeekInput.value = '';
+        otHoursInput.value = '';
+        dtHoursInput.value = '';
+        customMultInput.value = '1.50';
+        
+        if (dtCheckbox.checked) {
+          dtCheckbox.checked = false;
+          dtCheckbox.dispatchEvent(new Event('change'));
+        }
+
+        freqBtns[0].click(); // reset to hourly
+        cycleBtns[0].click(); // reset to weekly
+
+        if (isCalculated) hideResults();
+      });
+    }
+
+    cycleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        cycleBtns.forEach(b => {
+          b.classList.remove('active', 'bg-bg', 'shadow-xs', 'text-t1');
+          b.classList.add('hover:text-t1');
+        });
+        btn.classList.add('active', 'bg-bg', 'shadow-xs', 'text-t1');
+        btn.classList.remove('hover:text-t1');
+        currentCycle = btn.getAttribute('data-cycle');
+        if (isCalculated) calculateAndRender();
+      });
+    });
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const text = `Pay Calculation (${currentCycle})
+Gross Pay: ${currentSymbol}${resTotalGross.textContent}
+Total Hours: ${resTotalHours.textContent}
+Regular Pay: ${currentSymbol}${resRegPay.textContent}
+Overtime Pay: ${currentSymbol}${resOtPay.textContent}
+Double-Time: ${currentSymbol}${resDtPay.textContent}`;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          const oldText = copyBtnText.textContent;
+          copyBtnText.textContent = 'Copied!';
+          setTimeout(() => copyBtnText.textContent = oldText, 2000);
+        });
+      });
+    }
+
+  })();
+</script>
