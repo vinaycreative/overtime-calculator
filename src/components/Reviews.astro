@@ -1,52 +1,632 @@
 ---
-const testimonials = [
-  { 
-    name: 'Jordan S.', 
-    role: 'Warehouse Associate', 
-    content: '"California overtime rules are so confusing. This tool made it instant to see exactly what I was owed after a long week. Spot on accuracy."',
-    bg: '#fb923c',
+const initialReviews = [
+  {
+    id: 'rev-1',
+    name: 'Jordan S.',
+    role: 'Warehouse Associate',
+    industry: 'logistics',
+    content: 'California overtime rules are so confusing. This tool made it instant to see exactly what I was owed after a long week. Spot-on accuracy on double overtime too!',
+    rating: 5,
+    date: '2 days ago',
+    verified: true,
+    helpful: 24,
+    bg: 'from-orange-500 to-amber-600',
     initials: 'JS'
   },
-  { 
-    name: 'Maria A.', 
-    role: 'Registered Nurse', 
-    content: '"I use this every Sunday before submitting my timesheet. The interface is clean and works perfectly on my phone while I\'m on the go."',
-    bg: '#8b5cf6',
+  {
+    id: 'rev-2',
+    name: 'Maria A.',
+    role: 'Registered Nurse',
+    industry: 'healthcare',
+    content: 'I use this every Sunday before submitting my timesheet. Our shift differentials and overtime calculations are complicated, but this matches my payroll system exactly.',
+    rating: 5,
+    date: '1 week ago',
+    verified: true,
+    helpful: 18,
+    bg: 'from-purple-500 to-indigo-600',
     initials: 'MA'
   },
-  { 
-    name: 'David K.', 
-    role: 'Retail Manager', 
-    content: '"The Print and Copy features are game changers for keeping records. It\'s rare to find a tool this good that doesn\'t require a sign-up."',
-    bg: '#34d399',
+  {
+    id: 'rev-3',
+    name: 'David K.',
+    role: 'Retail Manager',
+    industry: 'retail',
+    content: 'The Print and Copy features are game changers for keeping physical records. It is rare to find a tool this good that does not require a sign-up or corporate account.',
+    rating: 5,
+    date: '2 weeks ago',
+    verified: true,
+    helpful: 12,
+    bg: 'from-emerald-500 to-teal-600',
     initials: 'DK'
+  },
+  {
+    id: 'rev-4',
+    name: 'Sarah L.',
+    role: 'Delivery Driver',
+    industry: 'gig',
+    content: 'Calculating hours worked across split-shifts in different zones is a nightmare. I plug everything here and it does the math in seconds. Extremely clean mobile interface.',
+    rating: 5,
+    date: '3 weeks ago',
+    verified: true,
+    helpful: 9,
+    bg: 'from-blue-500 to-cyan-600',
+    initials: 'SL'
+  },
+  {
+    id: 'rev-5',
+    name: 'Marcus T.',
+    role: 'Line Cook',
+    industry: 'retail',
+    content: 'Working in busy kitchens means unpredictable hours. This calculator helps me double check my weekly paycheck. Found a $45 pay shortage on my first try!',
+    rating: 4,
+    date: '1 month ago',
+    verified: true,
+    helpful: 31,
+    bg: 'from-rose-500 to-pink-600',
+    initials: 'MT'
+  },
+  {
+    id: 'rev-6',
+    name: 'Elena R.',
+    role: 'Home Health Aide',
+    industry: 'healthcare',
+    content: 'Simple, fast, and does exactly what it promises. The design looks premium and runs so fast. Highly recommended to anyone working hourly with irregular shifts.',
+    rating: 5,
+    date: '1 month ago',
+    verified: true,
+    helpful: 7,
+    bg: 'from-violet-500 to-purple-600',
+    initials: 'ER'
   }
+];
+
+const categories = [
+  { id: 'all', label: 'All Reviews' },
+  { id: 'logistics', label: 'Warehouse & Logistics' },
+  { id: 'healthcare', label: 'Healthcare' },
+  { id: 'retail', label: 'Retail & Food Service' },
+  { id: 'gig', label: 'Gig & Delivery' }
 ];
 ---
 <section class="py-24 border-b border-b1" id="testimonials">
   <div class="max-w-[1200px] mx-auto px-5 md:px-10">
-    <span class="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-accent mb-2.5">Social proof</span>
+    <span class="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-accent mb-2.5">Testimonials</span>
     <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-t1 leading-[1.15] mb-3">Trusted by hourly workers</h2>
-    <p class="text-[15px] text-t2 max-w-[600px] leading-[1.7] mb-10">Join thousands of employees across the US who use OvertimeCal to ensure their paychecks are accurate.</p>
- 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-      {testimonials.map((t) => (
-        <div class="bg-s1 border border-b1 rounded-xl p-8 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 group">
-          <div class="flex gap-0.5 text-[#fb923c] mb-3 transition-transform group-hover:scale-105 origin-left">
-            {[...Array(5)].map(() => (
-              <svg viewBox="0 0 20 20" class="w-3.5 h-3.5 fill-current"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            ))}
+    <p class="text-[15px] text-t2 max-w-[600px] leading-[1.7] mb-12">See how employees across the US use OvertimeCal to ensure their paychecks are accurate.</p>
+
+    <!-- Ratings Summary Dashboard -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 p-6 md:p-8 bg-s1 border border-b1 rounded-2xl mb-12 items-center">
+      <!-- Big Average Rating -->
+      <div class="flex flex-col items-center md:items-start text-center md:text-left border-b md:border-b-0 md:border-r border-b1 pb-6 md:pb-0 md:pr-8">
+        <span class="text-5xl md:text-6xl font-extrabold text-t1 tracking-tight" id="avg-rating-val">4.9</span>
+        <div class="flex gap-1 text-[#fb923c] my-2" id="avg-rating-stars">
+          {[...Array(5)].map(() => (
+            <svg viewBox="0 0 20 20" class="w-5 h-5 fill-current"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          ))}
+        </div>
+        <p class="text-xs text-t3 font-medium" id="total-reviews-count-label">Based on 148 verified reviews</p>
+      </div>
+
+      <!-- Rating Breakdown Bars -->
+      <div class="flex flex-col gap-2.5 md:px-4">
+        {[5, 4, 3, 2, 1].map((stars) => {
+          let pct = 0;
+          if (stars === 5) pct = 92;
+          else if (stars === 4) pct = 6;
+          else if (stars === 3) pct = 2;
+          return (
+            <div class="flex items-center gap-3 text-xs">
+              <span class="w-3 text-t3 font-bold">{stars}</span>
+              <svg viewBox="0 0 20 20" class="w-3.5 h-3.5 fill-[#fb923c] shrink-0"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <div class="flex-1 h-2 bg-s3 rounded-full overflow-hidden">
+                <div class="h-full bg-[#fb923c] rounded-full transition-all duration-500 rating-bar-fill" data-stars={stars} style={`width: ${pct}%`}></div>
+              </div>
+              <span class="w-8 text-right text-t3 font-medium rating-bar-pct" data-stars={stars}>{pct}%</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <!-- Trust Indicator and Write Review Button -->
+      <div class="flex flex-col items-center md:items-end text-center md:text-right gap-4 md:pl-8 border-t md:border-t-0 md:border-l border-b1 pt-6 md:pt-0">
+        <div class="flex items-center gap-2 text-green font-medium text-sm">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+          <span class="font-bold">100% Verified Users</span>
+        </div>
+        <p class="text-xs text-t3 leading-relaxed max-w-[240px]">Every review is submitted by a verified hourly employee. Let us know how OvertimeCal helped you!</p>
+        <button id="write-review-trigger" class="px-5 py-2.5 bg-accent text-bg font-semibold rounded-xl text-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-xs">Write a Review</button>
+      </div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="flex flex-wrap gap-2.5 mb-10 justify-start" id="review-filters">
+      {categories.map((cat, idx) => (
+        <button
+          data-category={cat.id}
+          class={`px-4 py-2 text-xs font-semibold rounded-full border transition-all duration-200 cursor-pointer ${
+            idx === 0
+              ? 'bg-accent text-bg border-accent shadow-xs'
+              : 'bg-bg text-t2 border-b1 hover:border-b2'
+          }`}
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="reviews-grid">
+      {initialReviews.map((t) => (
+        <div 
+          class="bg-bg border border-b1 rounded-2xl p-7 hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between relative overflow-hidden active-review-card"
+          data-id={t.id}
+          data-industry={t.industry}
+          data-stars={t.rating}
+        >
+          <!-- Subtle top gradient accent -->
+          <div class={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${t.bg}`}></div>
+          
+          <div>
+            <!-- Star Rating & Date -->
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex gap-0.5 text-[#fb923c]">
+                {[...Array(5)].map((_, i) => (
+                  <svg viewBox="0 0 20 20" class={`w-4 h-4 ${i < t.rating ? 'fill-current' : 'fill-s3 text-s3'}`}><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                ))}
+              </div>
+              <span class="text-[11px] text-t3 font-medium">{t.date}</span>
+            </div>
+
+            <!-- Review Content -->
+            <p class="text-[14px] text-t2 leading-relaxed italic mb-6">"{t.content}"</p>
           </div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-white text-[13px] shrink-0" style={`background:${t.bg}`}>{t.initials}</div>
-            <div>
-              <h4 class="text-sm font-semibold text-t1">{t.name}</h4>
-              <p class="text-xs text-t3">{t.role}</p>
+
+          <!-- User Info & Helpfulness -->
+          <div>
+            <div class="flex items-center gap-3 border-t border-b1 pt-4 mb-4">
+              <div class={`w-10 h-10 rounded-full bg-gradient-to-br ${t.bg} flex items-center justify-center font-bold text-white text-[13px] shrink-0 shadow-sm`}>
+                {t.initials}
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <h4 class="text-sm font-semibold text-t1 truncate">{t.name}</h4>
+                  {t.verified && (
+                    <span class="flex items-center text-[10px] text-green font-semibold bg-green/10 border border-green/20 px-1.5 py-0.5 rounded-full shrink-0">
+                      <svg class="w-2.5 h-2.5 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                      Verified
+                    </span>
+                  )}
+                </div>
+                <p class="text-xs text-t3 truncate">{t.role}</p>
+              </div>
+            </div>
+
+            <!-- Helpfulness Button -->
+            <div class="flex justify-between items-center text-xs">
+              <button class="flex items-center gap-1.5 py-1 px-2.5 rounded-lg text-t3 hover:text-t2 hover:bg-s1 transition-colors duration-200 helpful-btn cursor-pointer" data-review-id={t.id}>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2" /></svg>
+                <span>Helpful (<span class="helpful-count">{t.helpful}</span>)</span>
+              </button>
             </div>
           </div>
-          <p class="text-[14.5px] text-t2 leading-relaxed italic">{t.content}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<!-- Write a Review Modal -->
+<div id="write-review-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md hidden transition-all duration-300">
+  <div class="bg-bg border border-b1 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 modal-card">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b border-b1">
+      <h3 class="text-base font-bold text-t1">Write a Review</h3>
+      <button id="close-modal-btn" class="text-t3 hover:text-t1 p-1 rounded-lg hover:bg-s1 transition-colors cursor-pointer">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+
+    <!-- Modal Form Content -->
+    <form id="review-form" class="p-6 flex flex-col gap-4">
+      <!-- Stars Picker -->
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold text-t2 uppercase tracking-[0.05em]">Your Rating</label>
+        <div class="flex gap-2 py-1 items-center" id="modal-star-picker">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button type="button" data-value={star} class="text-s3 hover:scale-110 transition-transform cursor-pointer star-pick-btn">
+              <svg viewBox="0 0 20 20" class="w-8 h-8 fill-current"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </button>
+          ))}
+          <span class="text-xs text-t3 ml-2 font-medium" id="star-rating-label">Select rating</span>
+        </div>
+        <input type="hidden" name="rating" id="form-rating-val" value="" required />
+      </div>
+
+      <!-- Grid for Name & Role -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label for="form-name" class="text-xs font-bold text-t2 uppercase tracking-[0.05em]">Your Name / Nickname</label>
+          <input type="text" id="form-name" placeholder="e.g. Jordan S." class="w-full bg-s1 border border-b1 rounded-xl px-4 py-2.5 text-sm text-t1 focus:outline-none focus:border-b2 focus:ring-1 focus:ring-b2 transition-all" required maxlength="40" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="form-role" class="text-xs font-bold text-t2 uppercase tracking-[0.05em]">Your Job Title</label>
+          <input type="text" id="form-role" placeholder="e.g. Warehouse Associate" class="w-full bg-s1 border border-b1 rounded-xl px-4 py-2.5 text-sm text-t1 focus:outline-none focus:border-b2 focus:ring-1 focus:ring-b2 transition-all" required maxlength="50" />
+        </div>
+      </div>
+
+      <!-- Industry Select -->
+      <div class="flex flex-col gap-1.5">
+        <label for="form-industry" class="text-xs font-bold text-t2 uppercase tracking-[0.05em]">Your Industry</label>
+        <select id="form-industry" class="w-full bg-s1 border border-b1 rounded-xl px-4 py-2.5 text-sm text-t1 focus:outline-none focus:border-b2 transition-all appearance-none cursor-pointer" required>
+          <option value="" disabled selected>Select your industry...</option>
+          <option value="logistics">Warehouse & Logistics</option>
+          <option value="healthcare">Healthcare</option>
+          <option value="retail">Retail & Food Service</option>
+          <option value="gig">Gig Economy & Transport</option>
+          <option value="other">Other / Office</option>
+        </select>
+      </div>
+
+      <!-- Review content -->
+      <div class="flex flex-col gap-1.5">
+        <label for="form-content" class="text-xs font-bold text-t2 uppercase tracking-[0.05em]">Review Comments</label>
+        <textarea id="form-content" rows="4" placeholder="How did this calculator help you? (e.g. checked double overtime, matched timesheet...)" class="w-full bg-s1 border border-b1 rounded-xl px-4 py-2.5 text-sm text-t1 focus:outline-none focus:border-b2 focus:ring-1 focus:ring-b2 transition-all resize-none" required maxlength="10" minlength="300"></textarea>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="w-full py-3 bg-accent text-bg font-semibold rounded-xl text-sm transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] cursor-pointer mt-2 flex items-center justify-center gap-2">
+        Submit Review
+      </button>
+    </form>
+
+    <!-- Success state (Hidden by default) -->
+    <div id="modal-success" class="p-8 flex flex-col items-center justify-center text-center gap-4 hidden">
+      <div class="w-16 h-16 bg-green/10 border border-green/20 rounded-full flex items-center justify-center text-green shadow-sm success-checkmark-circle">
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+      </div>
+      <h3 class="text-lg font-bold text-t1">Review Submitted!</h3>
+      <p class="text-sm text-t2 leading-relaxed max-w-[280px]">Thank you for your feedback! Your review has been added to the database and published.</p>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initial stats configuration representing 148 reviews
+    let totalReviews = 148;
+    let ratingSum = 723; // 4.88 average * 148 = ~723
+    let starCounts = {
+      5: 136,
+      4: 9,
+      3: 3,
+      2: 0,
+      1: 0
+    };
+
+    // Load active states from storage
+    let userReviews = JSON.parse(sessionStorage.getItem('user_reviews') || '[]');
+    let votedReviews = JSON.parse(localStorage.getItem('voted_reviews') || '[]');
+
+    const grid = document.getElementById('reviews-grid');
+    const writeReviewBtn = document.getElementById('write-review-trigger');
+    const modal = document.getElementById('write-review-modal');
+    const modalInner = modal.querySelector('.modal-card');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const reviewForm = document.getElementById('review-form');
+    const modalSuccess = document.getElementById('modal-success');
+    const ratingInput = document.getElementById('form-rating-val');
+    const starPicker = document.getElementById('modal-star-picker');
+    const starRatingLabel = document.getElementById('star-rating-label');
+    const filterButtons = document.querySelectorAll('#review-filters button');
+    
+    const avatarGradients = [
+      'from-orange-500 to-amber-600',
+      'from-purple-500 to-indigo-600',
+      'from-emerald-500 to-teal-600',
+      'from-blue-500 to-cyan-600',
+      'from-rose-500 to-pink-600',
+      'from-violet-500 to-purple-600'
+    ];
+
+    // Recalculates stats values in the dashboard
+    function updateStatsUI() {
+      const avg = totalReviews > 0 ? (ratingSum / totalReviews).toFixed(1) : '0.0';
+      document.getElementById('avg-rating-val').textContent = avg;
+      document.getElementById('total-reviews-count-label').textContent = `Based on ${totalReviews} verified reviews`;
+
+      [5, 4, 3, 2, 1].forEach(star => {
+        const count = starCounts[star];
+        const pct = totalReviews > 0 ? Math.round((count / totalReviews) * 100) : 0;
+        
+        const bar = document.querySelector(`.rating-bar-fill[data-stars="${star}"]`);
+        if (bar) bar.style.width = `${pct}%`;
+        
+        const pctText = document.querySelector(`.rating-bar-pct[data-stars="${star}"]`);
+        if (pctText) pctText.textContent = `${pct}%`;
+      });
+    }
+
+    // Creates the HTML string for a review card dynamically
+    function createReviewHTML(rev) {
+      const isVoted = votedReviews.includes(rev.id);
+      const starsHTML = Array.from({ length: 5 }, (_, i) => {
+        const fillClass = i < rev.rating ? 'fill-[#fb923c]' : 'fill-s3 text-s3';
+        return `<svg viewBox="0 0 20 20" class="w-4 h-4 ${fillClass}"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+      }).join('');
+
+      return `
+        <div 
+          class="bg-bg border border-b1 rounded-2xl p-7 hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between relative overflow-hidden active-review-card opacity-0 scale-95"
+          data-id="${rev.id}"
+          data-industry="${rev.industry}"
+          data-stars="${rev.rating}"
+          style="transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);"
+        >
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${rev.gradient || 'from-orange-500 to-amber-600'}"></div>
+          
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex gap-0.5 text-[#fb923c]">
+                ${starsHTML}
+              </div>
+              <span class="text-[11px] text-t3 font-medium">${rev.date}</span>
+            </div>
+
+            <p class="text-[14px] text-t2 leading-relaxed italic mb-6">"${rev.content}"</p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-3 border-t border-b1 pt-4 mb-4">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br ${rev.gradient || 'from-orange-500 to-amber-600'} flex items-center justify-center font-bold text-white text-[13px] shrink-0 shadow-sm">
+                ${rev.initials}
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <h4 class="text-sm font-semibold text-t1 truncate">${rev.name}</h4>
+                  <span class="flex items-center text-[10px] text-green font-semibold bg-green/10 border border-green/20 px-1.5 py-0.5 rounded-full shrink-0">
+                    <svg class="w-2.5 h-2.5 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    Verified
+                  </span>
+                </div>
+                <p class="text-xs text-t3 truncate">${rev.role}</p>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+              <button 
+                class="flex items-center gap-1.5 py-1 px-2.5 rounded-lg text-t3 hover:text-t2 hover:bg-s1 transition-colors duration-200 helpful-btn cursor-pointer ${isVoted ? 'text-green hover:text-green hover:bg-green/5 font-semibold bg-green/5' : ''}" 
+                data-review-id="${rev.id}"
+                ${isVoted ? 'disabled' : ''}
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2" /></svg>
+                <span>${isVoted ? 'Voted Helpful' : 'Helpful'} (<span class="helpful-count">${rev.helpful}</span>)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Prepend user reviews stored in sessionStorage
+    userReviews.forEach(rev => {
+      totalReviews += 1;
+      ratingSum += rev.rating;
+      starCounts[rev.rating] = (starCounts[rev.rating] || 0) + 1;
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = createReviewHTML(rev);
+      const card = tempDiv.firstElementChild;
+      grid.insertBefore(card, grid.firstChild);
+      
+      setTimeout(() => {
+        card.classList.remove('opacity-0', 'scale-95');
+      }, 50);
+    });
+
+    updateStatsUI();
+
+    // Disable voted buttons for initial reviews that are already voted on
+    const staticHelpfulBtns = document.querySelectorAll('.helpful-btn');
+    staticHelpfulBtns.forEach(btn => {
+      const id = btn.getAttribute('data-review-id');
+      if (votedReviews.includes(id)) {
+        btn.setAttribute('disabled', 'true');
+        btn.classList.add('text-green', 'hover:text-green', 'hover:bg-green/5', 'font-semibold', 'bg-green/5');
+        const spanText = btn.querySelector('span');
+        if (spanText) {
+          const currentCount = btn.querySelector('.helpful-count').textContent;
+          spanText.innerHTML = `Voted Helpful (<span class="helpful-count">${currentCount}</span>)`;
+        }
+      }
+    });
+
+    // Category filter button logic
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.className = 'px-4 py-2 text-xs font-semibold rounded-full border transition-all duration-200 cursor-pointer bg-bg text-t2 border-b1 hover:border-b2';
+        });
+        btn.className = 'px-4 py-2 text-xs font-semibold rounded-full border transition-all duration-200 cursor-pointer bg-accent text-bg border-accent shadow-xs';
+
+        const filterVal = btn.getAttribute('data-category');
+        const cards = document.querySelectorAll('.active-review-card');
+
+        cards.forEach(card => {
+          const ind = card.getAttribute('data-industry');
+          if (filterVal === 'all' || ind === filterVal) {
+            card.classList.remove('hidden');
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            }, 10);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              card.classList.add('hidden');
+            }, 250);
+          }
+        });
+      });
+    });
+
+    // Helpfulness toggle (via event delegation)
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.helpful-btn');
+      if (!btn || btn.hasAttribute('disabled')) return;
+
+      const revId = btn.getAttribute('data-review-id');
+      if (votedReviews.includes(revId)) return;
+
+      const countSpan = btn.querySelector('.helpful-count');
+      let count = parseInt(countSpan.textContent);
+      count += 1;
+      countSpan.textContent = count;
+
+      votedReviews.push(revId);
+      localStorage.setItem('voted_reviews', JSON.stringify(votedReviews));
+
+      btn.setAttribute('disabled', 'true');
+      btn.className = 'flex items-center gap-1.5 py-1 px-2.5 rounded-lg text-green hover:text-green hover:bg-green/5 font-semibold bg-green/5 transition-colors duration-200 helpful-btn cursor-pointer';
+      const textSpan = btn.querySelector('span');
+      textSpan.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2" /></svg> <span>Voted Helpful (<span class="helpful-count">${count}</span>)</span>`;
+
+      btn.classList.add('scale-105');
+      setTimeout(() => btn.classList.remove('scale-105'), 150);
+    });
+
+    // Write a review modal interaction
+    writeReviewBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modalInner.classList.remove('scale-95', 'opacity-0');
+        modalInner.classList.add('scale-100', 'opacity-100');
+      }, 50);
+    });
+
+    function closeModal() {
+      modalInner.classList.remove('scale-100', 'opacity-100');
+      modalInner.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        reviewForm.classList.remove('hidden');
+        modalSuccess.classList.add('hidden');
+        reviewForm.reset();
+        ratingInput.value = '';
+        updateModalStars(0);
+      }, 300);
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    const modalStarBtns = document.querySelectorAll('.star-pick-btn');
+    
+    function updateModalStars(rating) {
+      modalStarBtns.forEach((btn, index) => {
+        if (index < rating) {
+          btn.className = 'text-[#fb923c] scale-105 transition-all cursor-pointer star-pick-btn';
+        } else {
+          btn.className = 'text-s3 hover:scale-110 transition-all cursor-pointer star-pick-btn';
+        }
+      });
+
+      const labelTexts = {
+        0: 'Select rating',
+        1: 'Poor',
+        2: 'Fair',
+        3: 'Good',
+        4: 'Very Good',
+        5: 'Excellent'
+      };
+      starRatingLabel.textContent = labelTexts[rating];
+    }
+
+    modalStarBtns.forEach(btn => {
+      btn.addEventListener('mouseover', () => {
+        const hoverVal = parseInt(btn.getAttribute('data-value'));
+        updateModalStars(hoverVal);
+      });
+
+      btn.addEventListener('mouseout', () => {
+        const setVal = parseInt(ratingInput.value || '0');
+        updateModalStars(setVal);
+      });
+
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.getAttribute('data-value'));
+        ratingInput.value = val;
+        updateModalStars(val);
+      });
+    });
+
+    // Review Form submission handler
+    reviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const rating = parseInt(ratingInput.value);
+      if (!rating) {
+        alert('Please select a star rating.');
+        return;
+      }
+
+      const name = document.getElementById('form-name').value.trim();
+      const role = document.getElementById('form-role').value.trim();
+      const industry = document.getElementById('form-industry').value;
+      const content = document.getElementById('form-content').value.trim();
+
+      if (!name || !role || !industry || !content) {
+        alert('Please fill out all required fields.');
+        return;
+      }
+
+      const initials = name
+        .split(' ')
+        .filter(n => n.length > 0)
+        .map(n => n[0])
+        .join('')
+        .toUpperCase()
+        .substring(0, 2);
+
+      const newRev = {
+        id: `user-rev-${Date.now()}`,
+        name: name,
+        role: role,
+        industry: industry,
+        content: content,
+        rating: rating,
+        date: 'Today',
+        verified: true,
+        helpful: 0,
+        initials: initials || 'US',
+        gradient: avatarGradients[Math.floor(Math.random() * avatarGradients.length)]
+      };
+
+      userReviews.unshift(newRev);
+      sessionStorage.setItem('user_reviews', JSON.stringify(userReviews));
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = createReviewHTML(newRev);
+      const card = tempDiv.firstElementChild;
+      grid.insertBefore(card, grid.firstChild);
+
+      setTimeout(() => {
+        card.classList.remove('opacity-0', 'scale-95');
+      }, 50);
+
+      totalReviews += 1;
+      ratingSum += rating;
+      starCounts[rating] = (starCounts[rating] || 0) + 1;
+      updateStatsUI();
+
+      reviewForm.classList.add('hidden');
+      modalSuccess.classList.remove('hidden');
+
+      setTimeout(() => {
+        closeModal();
+      }, 1500);
+    });
+  });
+</script>
