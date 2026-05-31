@@ -151,3 +151,71 @@
 
   summary::-webkit-details-marker { display: none; }
 }
+
+.print-only-header {
+  display: none !important;
+}
+
+@media print {
+  /* Force light background and dark text for printing to avoid black pages in PDF/print views */
+  :root, [data-theme="dark"], body {
+    --bg: #FFFFFF !important;
+    --t1: #000000 !important;
+    --t2: #333333 !important;
+    --t3: #666666 !important;
+    --b1: #E5E7EB !important;
+    --b2: #D1D5DB !important;
+    --s1: #F5F5F5 !important;
+    --s2: #F8F9FA !important;
+    --green: #10B981 !important;
+    --green-dim: #ECFDF5 !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  /* Hide everything except the calculator and its results panel */
+  header, footer, section:not(#hero), .hero-text, .calc-top, #inputs-panel, #recalculate-btn, #results-copy-btn, .calc-top-actions, #back-btn {
+    display: none !important;
+  }
+
+  /* Show the print-only brand header */
+  .print-only-header {
+    display: flex !important;
+  }
+
+  /* Reset grid and container widths for printing */
+  .wrap, .justify-self-center, .justify-self-end {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Collapse outer page layout grid only, keeping calculator inner grids intact */
+  #hero > .wrap > .grid {
+    display: block !important;
+  }
+
+  /* Reset the card layout and border styles for print */
+  .calc-card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #results-panel {
+    display: flex !important;
+    opacity: 1 !important;
+    padding: 0 !important;
+  }
+
+  /* Force background color rules to print cleanly in pdf preview */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
