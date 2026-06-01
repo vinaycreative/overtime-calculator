@@ -9,8 +9,8 @@ interface Props {
 
 const { 
   title, 
-  description = "Calculate your overtime pay instantly. Enter hourly rate + overtime hours — see overtime earnings, rate per hour, regular pay, and total weekly gross. Free. No sign-up. Any device.",
-  canonical = "https://overtimecal.com/"
+  description = "Calculate your overtime pay instantly. Enter hourly rate + overtime hours, see overtime earnings, rate per hour, regular pay, and total weekly gross. Free. No sign-up needed.",
+  canonical = ""
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -26,8 +26,12 @@ const {
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonical} />
   <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Overtime Calculator" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,7 +50,92 @@ const {
     {"@context":"https://schema.org","@type":"WebApplication","name":"OvertimeCal","url":"https://overtimecal.com","description":"Free overtime pay calculator. Instantly calculate overtime pay, overtime rate, and total weekly earnings.","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do you calculate overtime pay?","acceptedAnswer":{"@type":"Answer","text":"Overtime pay = hourly rate × multiplier × overtime hours. Time and a half: $15 × 1.5 × 8 hrs = $180."}},{"@type":"Question","name":"What is time and a half?","acceptedAnswer":{"@type":"Answer","text":"Time and a half is 1.5× your regular hourly rate. US federal law requires this after 40 hours per workweek."}},{"@type":"Question","name":"When does overtime start?","acceptedAnswer":{"@type":"Answer","text":"Federal: after 40 hrs/week. California and Alaska: after 8 hrs/day. Colorado: after 12 hrs/day."}},{"@type":"Question","name":"Is overtime taxed more?","acceptedAnswer":{"@type":"Answer","text":"No. Overtime is taxed at the same rates as regular income."}},{"@type":"Question","name":"Do salaried employees get overtime?","acceptedAnswer":{"@type":"Answer","text":"Yes, if they earn under $684/week ($35,568/year)."}},{"@type":"Question","name":"What is double time?","acceptedAnswer":{"@type":"Answer","text":"Double time is 2× your regular rate. California requires it after 12 hours in a single workday."}}]}
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I calculate overtime pay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Overtime pay is calculated at 1.5× your regular hourly rate for any hours worked beyond 40 in a workweek. For example, if you earn $20/hr, your overtime rate is $30/hr. Just enter your regular hourly rate and total hours worked into our overtime pay calculator above."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there no tax on overtime pay in 2025?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As of 2025, overtime pay is still subject to federal and state income taxes. However, there have been legislative discussions about exempting overtime from federal income tax. Use our no tax on overtime calculator to compare your take-home pay under current rules and potential future rules."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the overtime calculator work with taxes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our overtime calculator with taxes factors in your federal tax bracket, state tax, Social Security (6.2%), and Medicare (1.45%) deductions. Enter your filing status, state, and hours worked to see your gross overtime pay and estimated net take-home amount."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the overtime rules in California?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "California has stricter overtime rules than federal law. Employees earn 1.5× pay for hours over 8 in a single day (not just 40/week), and 2× pay for hours over 12 in a day. Use our California overtime calculator to account for both daily and weekly overtime thresholds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is overtime worth it after taxes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, overtime is almost always worth it financially. Even though overtime pushes you into a higher marginal tax bracket, you only pay the higher rate on the extra income — not your entire paycheck. Use our 'is overtime worth it' calculator to see your exact take-home increase."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the overtime rate for salaried employees?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Salaried employees earning under $684/week ($35,568/year) are generally entitled to overtime under the FLSA. To find the hourly equivalent, divide your weekly salary by 40 hours, then multiply by 1.5 for overtime hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much overtime tax will I get back?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You don't typically 'get back' overtime taxes separately — they're part of your total tax withholding. If your employer withholds too much overall, you get a refund at tax time. Our calculator shows your estimated annual tax liability including overtime income so you can plan ahead."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I calculate overtime for payroll?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For payroll purposes: (1) identify hours worked over 40 in the workweek, (2) multiply those hours by 1.5× the regular rate, (3) add to regular pay. Our overtime pay calculator handles this automatically and supports both weekly and bi-weekly pay periods."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the GS overtime pay calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Federal government (GS) employees have a specific overtime cap — overtime pay cannot exceed the greater of GS-10 step 1 or the employee's own hourly rate. Select 'GS / Federal employee' in our calculator to apply the correct overtime rules for your pay grade."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is overtime calculated in Texas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Texas follows federal FLSA overtime rules — 1.5× pay for hours worked over 40 in a workweek. Texas has no state income tax, which means your overtime take-home is higher than most states. Our Texas overtime pay calculator reflects this automatically."
+          }
+        }
+      ]
+    }
   </script>
 </head>
 <body>

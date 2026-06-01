@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  error?: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<Layout 
+  title="Server Error — 500 Error"
+  description="Something went wrong on our end."
+>
+  <Header />
+
+  <main class="min-h-screen bg-bg flex flex-col justify-center py-20">
+    <div class="wrap text-center max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center">
+      <h1 class="text-6xl sm:text-9xl font-extrabold text-t1 mb-6 tracking-tight">500</h1>
+      <h2 class="text-3xl sm:text-4xl font-bold text-t1 mb-4">Internal Server Error</h2>
+      <p class="text-base sm:text-lg text-t2 font-medium opacity-90 leading-relaxed mb-6 max-w-md">
+        Oops! Something went wrong on our end. Please try again later.
+      </p>
+      {error instanceof Error && (
+        <div class="mb-10 p-4 bg-t1/5 border border-t1/10 rounded-xl text-left max-w-full overflow-auto">
+          <p class="text-sm font-mono text-t2">{error.message}</p>
+        </div>
+      )}
+      <a href="/" class="inline-flex items-center justify-center h-[52px] px-8 bg-green hover:bg-green/90 text-bg font-bold rounded-xl transition-all shadow-[0_4px_0_0_rgba(20,20,20,1)] hover:shadow-[0_2px_0_0_rgba(20,20,20,1)] hover:translate-y-[2px]">
+        Return Home
+      </a>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

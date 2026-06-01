@@ -4,8 +4,8 @@
   <div class="wrap">
     <div class="header-inner flex items-center justify-between h-[62px] gap-4">
       <a class="wordmark flex items-center gap-2.5 no-underline shrink-0" href="/" aria-label="OvertimeCal">
-        <div class="logo w-[30px] h-[30px] bg-[#111111] dark:bg-[#11B981] rounded-lg flex items-center justify-center shrink-0 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-fading-icon lucide-clock-fading text-white dark:text-[#11B981]"><path d="M12 2a10 10 0 0 1 7.38 16.75"/><path d="M12 6v6l4 2"/><path d="M2.5 8.875a10 10 0 0 0-.5 3"/><path d="M2.83 16a10 10 0 0 0 2.43 3.4"/><path d="M4.636 5.235a10 10 0 0 1 .891-.857"/><path d="M8.644 21.42a10 10 0 0 0 7.631-.38"/></svg>
+        <div class="logo w-[30px] h-[30px] bg-[#11B981] rounded-lg flex items-center justify-center shrink-0 transition-colors shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-fading text-white"><path d="M12 2a10 10 0 0 1 7.38 16.75"/><path d="M12 6v6l4 2"/><path d="M2.5 8.875a10 10 0 0 0-.5 3"/><path d="M2.83 16a10 10 0 0 0 2.43 3.4"/><path d="M4.636 5.235a10 10 0 0 1 .891-.857"/><path d="M8.644 21.42a10 10 0 0 0 7.631-.38"/></svg>
         </div>
         <span class="brand text-2xl font-bold text-t1 tracking-tight">Overtime <b class="text-[#11B981]">Calculator</b></span>
       </a>
@@ -44,7 +44,12 @@
 
     if (toggleBtn) {
       toggleBtn.addEventListener('click', () => {
-        applyTheme(html.dataset.theme === 'dark' ? 'light' : 'dark');
+        const nextTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+        if (!document.startViewTransition) {
+          applyTheme(nextTheme);
+        } else {
+          document.startViewTransition(() => applyTheme(nextTheme));
+        }
       });
     }
 

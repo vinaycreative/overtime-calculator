@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="About Us | OvertimeCal" description="Learn about OvertimeCal and our mission to provide accurate, easy-to-use overtime pay calculators.">
+  <Header />
+  <main class="pt-[90px] min-h-[70vh] bg-white dark:bg-[#0A0A0A] transition-colors duration-300">
+    <div class="max-w-[800px] mx-auto px-5 md:px-10 py-16 text-neutral-700 dark:text-neutral-300">
+      <h1 class="text-4xl font-extrabold mb-8 text-neutral-900 dark:text-white tracking-tight">About Us</h1>
+      
+      <div class="prose prose-neutral dark:prose-invert max-w-none">
+        <p class="mb-8 leading-relaxed text-xl text-neutral-600 dark:text-neutral-400 font-medium">OvertimeCal was built with a simple, singular mission: to help hourly workers, freelancers, and professionals quickly, accurately, and easily calculate their true overtime earnings without the guesswork.</p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-4 text-neutral-900 dark:text-white">The Problem We're Solving</h2>
+        <p class="mb-6 leading-relaxed">Navigating labor laws and understanding your paycheck shouldn't require a degree in accounting or employment law. Unfortunately, calculating overtime isn't always as simple as multiplying your rate by 1.5. Depending on where you live, such as California, you might be entitled to double-time for hours worked beyond 12 in a day. You also have to factor in shift differentials, bonuses, and complex federal regulations like the Fair Labor Standards Act (FLSA).</p>
+        <p class="mb-6 leading-relaxed">We noticed that most overtime calculators online were either too simplistic, failing to account for state-specific laws, or too complicated, requiring users to fill out confusing, spreadsheet-like interfaces. We wanted to fix that.</p>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 text-neutral-900 dark:text-white">What We Offer</h2>
+        <p class="mb-6 leading-relaxed">OvertimeCal provides a suite of high-fidelity, highly accurate calculators designed to address real-world payroll scenarios:</p>
+        <ul class="mb-6 leading-relaxed list-disc pl-6 space-y-2">
+          <li><strong>Federal & State Accuracy:</strong> We bake in complex logic for different jurisdictions, ensuring that whether you're calculating standard time-and-a-half or California's strict daily overtime thresholds, the math is done right.</li>
+          <li><strong>Tax Estimates:</strong> Understanding gross pay is one thing; knowing your take-home pay is another. We've integrated basic tax estimation logic so you can see how extra hours impact your overall tax burden.</li>
+          <li><strong>Flexible Pay Periods:</strong> Whether you're paid hourly, daily, weekly, bi-weekly, or monthly, our tools adapt to your specific payment structure.</li>
+          <li><strong>Privacy First:</strong> Our calculators run locally in your browser. We don't want or need your personal financial data.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 text-neutral-900 dark:text-white">Our Mission & Values</h2>
+        <p class="mb-6 leading-relaxed">We believe in <strong>financial transparency and worker empowerment</strong>. Wage theft—whether intentional or resulting from honest payroll errors—costs workers billions of dollars every year. By providing free, accessible, and intuitive tools, we aim to give workers the knowledge they need to verify their paychecks, advocate for fair compensation, and plan their financial futures.</p>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 text-neutral-900 dark:text-white">Who We Are</h2>
+        <p class="mb-6 leading-relaxed">OvertimeCal is maintained by a dedicated team of software developers and data enthusiasts who are passionate about building premium, user-friendly tools that solve everyday problems. We constantly monitor updates to state and federal labor laws to ensure our calculators remain up-to-date and reliable.</p>
+
+        <div class="mt-12 p-6 bg-neutral-100 dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
+          <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-2">Have a suggestion?</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-0">We are always looking to improve. If you have a specific payroll scenario our calculator doesn't currently handle, or if you've spotted an area where we can improve, please reach out to us at <a href="mailto:feedback@overtimecal.com" class="text-green hover:underline">feedback@overtimecal.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

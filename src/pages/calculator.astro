@@ -2,29 +2,36 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import DetailedCalculator from '../components/DetailedCalculator.astro';
+import CalculatorSEOInfo from '../components/CalculatorSEOInfo.astro';
+import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <Layout 
-  title="Detailed Overtime Pay Calculator — Hourly, Daily, Weekly, Monthly & Yearly | OvertimeCal"
+  title="Overtime Pay Calculator — Hourly, Daily, Weekly, Monthly & Yearly"
   description="Free advanced overtime pay calculator. Calculate regular and overtime wages based on hourly, daily, weekly, monthly, or yearly rates. Select custom currencies and view bi-weekly, monthly, and yearly paycheck estimates."
-  canonical="https://overtimecal.com/calculator"
+  canonical=""
 >
   <Header />
 
-  <main class="min-h-screen bg-bg py-16 sm:py-24">
-    <div class="wrap">
-      <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <h1 class="text-4xl sm:text-[44px] font-extrabold text-t1 tracking-tight leading-tight mb-4">
-          Overtime Pay <span class="text-green">Calculator</span>
-        </h1>
-        <p class="text-base sm:text-lg text-t2 font-medium opacity-90 leading-relaxed">
-          Supports hourly, daily, weekly, monthly, and yearly pay systems. Calculate your overtime pay, double-time pay, and view your paycheck breakdown across all cycles.
-        </p>
-      </div>
+  <main class="min-h-screen bg-bg">
+    <section class="py-16 sm:py-20 border-b border-b1">
+      <div class="wrap">
+        <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+          <h1 class="text-4xl sm:text-[44px] font-extrabold text-t1 tracking-tight leading-tight mb-4">
+            Overtime Pay <span class="text-green">Calculator</span>
+          </h1>
+          <p class="text-base sm:text-lg text-t2 font-medium opacity-90 leading-relaxed">
+            Supports hourly, daily, weekly, monthly, and yearly pay systems. Calculate your overtime pay, double-time pay, and view your paycheck breakdown across all cycles.
+          </p>
+        </div>
 
-      <DetailedCalculator />
-    </div>
+        <DetailedCalculator />
+      </div>
+    </section>
+
+    <CalculatorSEOInfo />
+    <CTA />
   </main>
 
   <Footer />
