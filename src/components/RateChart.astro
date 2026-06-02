@@ -21,11 +21,11 @@ const rates = [
   { rate: 50.00, th: 75.00, dt: 100.00, h8: 600.00, h10: 750.00, total: 2600.00 },
 ];
 
-const fmt = (n) => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const fmt = (n: any) => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 ---
 <section class="py-24 border-b border-b1" id="rate-chart">
   <div class="max-w-[1200px] mx-auto px-5 md:px-10">
-    <span class="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-accent mb-2.5">Pay chart</span>
+    <span class="inline-block text-[11px] font-bold tracking-widest uppercase text-accent mb-2.5">Pay chart</span>
     <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-t1 leading-[1.15] mb-3">Time and a half pay chart</h2>
     <p class="text-[15px] text-t2 max-w-[600px] leading-[1.7] mb-10">Quick reference for overtime rates at common hourly wages — instantly see your overtime rate and earnings for 8 or 10 OT hours.</p>
     

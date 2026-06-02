@@ -212,7 +212,7 @@
       <!-- Cycle Selector -->
       <div class="grid grid-cols-1 md:grid-cols-2 items-start md:items-end mb-4 border-b border-b1 gap-4 pb-4">
         <div class="flex flex-col">
-          <span class="block text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-1">Calculation Results</span>
+          <span class="block text-[10px] font-bold text-t3 uppercase tracking-widest mb-1">Calculation Results</span>
           <div class="flex items-center gap-2">
             <h3 class="text-xl font-extrabold text-t1 tracking-tight leading-none">Earnings Dashboard</h3>
             <span class="px-2 py-0.5 bg-green/10 text-green text-[9px] font-bold rounded-full uppercase tracking-wider">Active</span>
@@ -220,7 +220,7 @@
         </div>
         
         <div class="flex bg-s1 p-1 rounded-lg border border-b1 w-full">
-          <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold text-t3 transition-all flex items-center justify-center active bg-bg shadow-sm text-t1" data-cycle="weekly">Weekly</button>
+          <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold transition-all flex items-center justify-center active bg-bg shadow-sm text-t1" data-cycle="weekly">Weekly</button>
           <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold text-t3 transition-all flex items-center justify-center hover:text-t1" data-cycle="monthly">Monthly</button>
           <button class="cycle-btn h-8 flex-1 rounded-md text-[11px] font-bold text-t3 transition-all flex items-center justify-center hover:text-t1" data-cycle="yearly">Yearly</button>
         </div>
@@ -230,7 +230,7 @@
       <div class="bg-bg border border-b2 rounded-xl p-5 sm:p-6 shadow-sm">
         <div class="flex items-end justify-between mb-4">
           <div>
-            <span class="block text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-1" id="hero-earnings-label">Total Weekly Gross Pay</span>
+            <span class="block text-[10px] font-bold text-t3 uppercase tracking-widest mb-1" id="hero-earnings-label">Total Weekly Gross Pay</span>
             <div class="text-4xl sm:text-5xl font-extrabold text-t1 tabular-nums leading-none tracking-tight flex items-baseline">
               <span class="det-cur-symbol mr-1 text-3xl">$</span>
               <span id="res-total-gross">0.00</span>
@@ -261,7 +261,7 @@
         
         <!-- Overtime Pay -->
         <div class="bg-bg border border-b2 rounded-xl p-5 flex flex-col justify-between shadow-xs">
-          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Overtime Pay</span>
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-widest mb-3">Overtime Pay</span>
           <div>
             <div class="text-2xl font-extrabold text-green tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
               <span class="det-cur-symbol mr-0.5">$</span>
@@ -273,7 +273,7 @@
 
         <!-- Regular Pay -->
         <div class="bg-bg border border-b2 rounded-xl p-5 flex flex-col justify-between shadow-xs">
-          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Regular Pay</span>
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-widest mb-3">Regular Pay</span>
           <div>
             <div class="text-2xl font-extrabold text-t1 tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
               <span class="det-cur-symbol mr-0.5">$</span>
@@ -284,8 +284,8 @@
         </div>
 
         <!-- Double Time Pay -->
-        <div id="res-dt-card" class="bg-bg border border-b2 hover:border-amber/45 transition-all duration-200 rounded-xl p-5 flex flex-col justify-between shadow-xs hidden">
-          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Double-Time Pay</span>
+        <div id="res-dt-card" class="bg-bg border border-b2 hover:border-amber/45 transition-all duration-200 rounded-xl p-5 flex-col justify-between shadow-xs hidden">
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-widest mb-3">Double-Time Pay</span>
           <div>
             <div class="text-2xl font-extrabold text-amber tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
               <span class="det-cur-symbol mr-0.5">$</span>
@@ -297,7 +297,7 @@
 
         <!-- Effective Hourly Rate -->
         <div id="res-eff-card" class="bg-bg border border-b2 rounded-xl p-5 flex flex-col justify-between shadow-xs md:col-span-2">
-          <span class="text-[10px] font-bold text-t3 uppercase tracking-[0.1em] mb-3">Effective Hourly Rate</span>
+          <span class="text-[10px] font-bold text-t3 uppercase tracking-widest mb-3">Effective Hourly Rate</span>
           <div>
             <div class="text-2xl font-extrabold text-t1 tabular-nums leading-none tracking-tight mb-2 flex items-baseline">
               <span class="det-cur-symbol mr-0.5">$</span>
@@ -661,11 +661,13 @@
         ratioDtWrap.classList.remove('hidden');
         ratioDtWrap.classList.add('flex');
         resDtCard.classList.remove('hidden');
+        resDtCard.classList.add('flex');
         resEffCard.classList.remove('md:col-span-2');
       } else {
         ratioDtWrap.classList.add('hidden');
         ratioDtWrap.classList.remove('flex');
         resDtCard.classList.add('hidden');
+        resDtCard.classList.remove('flex');
         resEffCard.classList.add('md:col-span-2');
       }
 
