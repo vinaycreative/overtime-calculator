@@ -142,6 +142,16 @@ const {
   {customSchema && (
     <script type="application/ld+json" set:html={customSchema} />
   )}
+
+  <!-- Google tag (gtag.js) -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-0F2LNN5FJ7"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0F2LNN5FJ7');
+  </script>
 </head>
 <body>
   <slot />
