@@ -25,7 +25,7 @@ export const statesData: StateData[] = [
     daily: '8 hrs/day', 
     rate: '1.5×; 2× after 12 hrs', 
     notes: 'Strictest in the US. Double time after 12 hrs/day or 8 hrs on 7th day',
-    description: "Calculate your California overtime pay instantly. Under California labor laws, employees are entitled to 1.5x their regular rate for hours worked over 8 in a single day or 40 in a week, and double time (2x) for hours over 12 in a single day.",
+    description: "Use our free overtime calculator to find your California overtime pay instantly. Our tool functions as a tax free overtime calculator and factors in California labor laws (1.5x after 8 hours/day or 40 hours/week, 2x after 12 hours/day).",
     stats: [
       "California requires 1.5x pay after 8 hours in a single day.",
       "Double time (2x) pay is required after 12 hours in a single workday.",
@@ -50,7 +50,7 @@ export const statesData: StateData[] = [
     daily: '—', 
     rate: '1.5×', 
     notes: 'Follows federal FLSA exactly',
-    description: "Calculate your Texas overtime pay instantly. Texas follows the federal Fair Labor Standards Act (FLSA), requiring 1.5x regular pay for any hours worked over 40 in a single workweek.",
+    description: "Use our free overtime calculator to find your Texas overtime pay instantly. Our tool acts as a tax free overtime calculator based on federal FLSA laws, requiring 1.5x regular pay for hours over 40 in a workweek.",
     stats: [
       "Texas follows the federal FLSA threshold of 40 hours per week.",
       "There is no state income tax in Texas, maximizing your net overtime take-home pay.",
@@ -75,7 +75,7 @@ export const statesData: StateData[] = [
     daily: '—', 
     rate: '1.5×', 
     notes: 'Follows federal; higher state minimum wage',
-    description: "Calculate your New York overtime pay instantly. New York follows a 40-hour weekly overtime threshold at 1.5x pay, but features higher state minimum wages and specific rules for certain industries like hospitality and healthcare.",
+    description: "Use our free overtime calculator to find your New York overtime pay instantly. Features a tax free overtime calculator mode and factors in NY's 40-hour weekly threshold and specific rules like Spread of Hours.",
     stats: [
       "New York requires 1.5x pay for all hours worked over 40 in a workweek.",
       "New York has specific 'Spread of Hours' rules where working more than 10 hours in a day (including breaks) entitles workers to an extra hour of minimum wage pay.",
