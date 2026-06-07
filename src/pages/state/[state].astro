@@ -1,0 +1,139 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Calculator from '../../components/Calculator.astro';
+import CTA from '../../components/CTA.astro';
+import { statesData } from '../../data/states';
+
+export async function getStaticPaths() {
+  return statesData.map((state) => {
+    return {
+      params: { state: state.slug },
+      props: { state },
+    };
+  });
+}
+
+const { state } = Astro.props;
+
+const title = `${state.name} Overtime Calculator | Free & Instant`;
+const description = state.description;
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": state.faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+const customSchema = JSON.stringify(schemaData);
+---
+
+<Layout 
+  title={title}
+  description={description}
+  customSchema={customSchema}
+>
+  <Header />
+
+  <!-- Answer-first GEO block for AI citations -->
+  <div class="sr-only" id="ai-geo-block">
+    <h2>How does overtime work in {state.name}?</h2>
+    <p>{state.description}</p>
+    <ul>
+      {state.stats.map(stat => <li>{stat}</li>)}
+    </ul>
+    <h3>{state.name} Overtime Thresholds</h3>
+    <p>Weekly Threshold: {state.weekly}</p>
+    <p>Daily Threshold: {state.daily}</p>
+    <p>Overtime Rate: {state.rate}</p>
+    <p>Additional Notes: {state.notes}</p>
+  </div>
+
+  <main>
+    <section class="relative overflow-hidden py-10 lg:py-16 border-b border-b1" id="hero">
+      <!-- Subtle radial glow (dark only) -->
+      <div class="hidden dark:block absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(129,140,248,0.08),transparent_70%)] pointer-events-none"></div>
+      
+      <div class="wrap relative pt-0 sm:pt-16 2xl:pt-28 h-[75vh] 2xl:h-[60vh] z-10">
+        <div class="grid md:grid-cols-[1fr_440px] lg:grid-cols-[1fr_580px] gap-8 lg:gap-16 items-center">
+          <div class="hero-text lg:pr-8 lg:pt-3 order-2 md:order-1">
+            
+            <h1 class="text-4xl lg:text-[60px] font-extrabold tracking-tight leading-[1.05] text-t1 mb-5">
+              <span class="text-green">{state.name}</span> Overtime Calculator
+            </h1>
+            <p class="text-base lg:text-lg text-t2 max-w-lg leading-relaxed mb-6 font-medium opacity-90">
+              {state.description}
+            </p>
+
+            <!-- Feature list to fill vertical space -->
+            <div class="mt-8 flex flex-col gap-4 border-t border-b1 pt-6 max-w-md">
+              <span class="text-[10px] font-bold text-t3 uppercase">Important Rules for {state.name}</span>
+              {state.stats.map(stat => (
+                <div class="flex items-center gap-3 text-[13.5px] font-medium text-t2">
+                  <div class="w-5 h-5 rounded-full bg-green-dim flex items-center justify-center shrink-0">
+                    <svg class="text-green w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <span>{stat}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="justify-self-center lg:justify-self-end w-full max-w-none md:max-w-[440px] lg:max-w-[580px] order-1 md:order-2">
+            <Calculator />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-s1 border-b border-b1" id="faq">
+      <div class="max-w-[1200px] mx-auto px-5 md:px-10">
+        <span class="inline-block text-[11px] font-bold tracking-widest uppercase text-accent mb-2.5">FAQ</span>
+        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-t1 leading-[1.15] mb-3">Frequently Asked Questions</h2>
+        <p class="text-[15px] text-t2 max-w-[600px] leading-[1.7] mb-10">Everything you need to know about overtime pay laws in {state.name}.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-b1 border border-b1 rounded-xl overflow-hidden shadow-sm">
+          {state.faqs.map((faq) => (
+            <details name="faq" class="bg-s1 group transition-all duration-200">
+              <summary class="p-5 text-sm font-semibold text-t1 cursor-pointer list-none flex justify-between items-start gap-3 select-none hover:text-accent group-open:text-accent group-open:border-b group-open:border-b1 leading-snug">
+                {faq.question}
+                <svg class="w-[18px] h-[18px] shrink-0 text-t3 transition-transform duration-200 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              </summary>
+              <div class="p-5 pt-3.5 pb-4.5 text-[13.5px] text-t2 leading-relaxed" set:html={faq.answer}></div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <CTA />
+  </main>
+
+  <script>
+    // Fallback for browsers that don't support the `name` attribute on `<details>`
+    document.addEventListener('DOMContentLoaded', () => {
+      const detailsElements = document.querySelectorAll<HTMLDetailsElement>('#faq details');
+      detailsElements.forEach((targetDetail) => {
+        targetDetail.addEventListener('toggle', () => {
+          if (targetDetail.open) {
+            detailsElements.forEach((detail) => {
+              if (detail !== targetDetail && detail.open) {
+                detail.removeAttribute('open');
+              }
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+  <Footer />
+</Layout>

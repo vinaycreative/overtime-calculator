@@ -1,16 +1,5 @@
 ---
-const states = [
-  { name: 'Federal (FLSA)', type: 'Default', weekly: '40 hrs/week', daily: '—', rate: '1.5×', notes: 'Covers most US employees' },
-  { name: 'California', type: 'Special', weekly: '40 hrs/week', daily: '8 hrs/day', rate: '1.5×; 2× after 12 hrs', notes: 'Strictest in the US. Double time after 12 hrs/day or 8 hrs on 7th day' },
-  { name: 'Alaska', type: 'Special', weekly: '40 hrs/week', daily: '8 hrs/day', rate: '1.5×', notes: 'Daily OT after 8 hrs; no double time requirement' },
-  { name: 'Colorado', type: 'Special', weekly: '40 hrs/week', daily: '12 hrs/day', rate: '1.5×', notes: 'Daily OT after 12 hrs in a workday' },
-  { name: 'Nevada', type: 'Special', weekly: '40 hrs/week', daily: '8 hrs/day (conditional)', rate: '1.5×', notes: 'Daily OT only if earning ≤ 1.5× Nevada minimum wage' },
-  { name: 'New York', type: '', weekly: '40 hrs/week', daily: '—', rate: '1.5×', notes: 'Follows federal; higher state minimum wage' },
-  { name: 'Texas', type: '', weekly: '40 hrs/week', daily: '—', rate: '1.5×', notes: 'Follows federal FLSA exactly' },
-  { name: 'Florida', type: '', weekly: '40 hrs/week', daily: '—', rate: '1.5×', notes: 'Follows federal FLSA exactly' },
-  { name: 'Washington', type: '', weekly: '40 hrs/week', daily: '—', rate: '1.5×', notes: 'Follows federal; $16.28/hr minimum wage (2024)' },
-  { name: 'All other states (38)', type: '', weekly: '40 hrs/week', daily: '—', rate: '1.5×', notes: 'Default to federal FLSA rules' },
-];
+import { statesData } from '../data/states';
 ---
 <section class="py-24 bg-s1 border-b border-b1" id="states">
   <div class="max-w-[1200px] mx-auto px-5 md:px-10">
@@ -30,14 +19,14 @@ const states = [
           </tr>
         </thead>
         <tbody class="divide-y divide-b1">
-          {states.map((s) => (
+          {statesData.map((s) => (
             <tr class="hover:bg-s2 transition-colors">
               <td class="px-5 py-3.5 text-sm font-semibold text-t1">
-                <div class="flex items-center gap-2">
+                <a href={`/state/${s.slug}`} class="flex items-center gap-2 hover:text-accent transition-colors">
                   {s.name}
                   {s.type === 'Default' && <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] border border-[#C7D2FE] dark:bg-[#1E1B4B] dark:text-[#60A5FA] dark:border-[#1E1B4B]">Default</span>}
                   {s.type === 'Special' && <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#FFF7ED] text-[#B45309] border border-[#FDE68A] dark:bg-[#1C0A00] dark:text-[#FCD34D] dark:border-[#1C0A00]">Special</span>}
-                </div>
+                </a>
               </td>
               <td class="px-5 py-3.5 text-sm text-t2">{s.weekly}</td>
               <td class="px-5 py-3.5 text-sm text-t2">{s.daily}</td>

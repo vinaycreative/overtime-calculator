@@ -5,12 +5,14 @@ interface Props {
   title: string;
   description?: string;
   canonical?: string;
+  customSchema?: string;
 }
 
 const { 
   title, 
   description = "Calculate your overtime pay instantly. Enter hourly rate + overtime hours, see overtime earnings, rate per hour, regular pay, and total weekly gross. Free. No sign-up needed.",
-  canonical = ""
+  canonical = "",
+  customSchema
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -137,6 +139,9 @@ const {
       ]
     }
   </script>
+  {customSchema && (
+    <script type="application/ld+json" set:html={customSchema} />
+  )}
 </head>
 <body>
   <slot />
