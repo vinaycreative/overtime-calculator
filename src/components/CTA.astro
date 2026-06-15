@@ -5,7 +5,13 @@
     <div class="bg-s1 border border-b1 rounded-xl px-8 py-16 text-center flex flex-col items-center gap-6 shadow-sm transition-colors">
       <h2 class="text-2xl sm:text-4xl font-extrabold text-t1 max-w-[600px] leading-[1.1] tracking-tight">Smarter, simpler overtime calculations.</h2>
       <p class="text-t2 max-w-[480px] leading-relaxed">Join thousands of hourly workers who use OvertimeCal to verify their paychecks every week.</p>
-      <a href="#calculator" class="h-12 px-8 bg-[#111111] dark:bg-[#FAFAFA] text-white dark:text-[#111111] rounded-lg text-sm font-semibold flex items-center justify-center no-underline hover:bg-[#242424] dark:hover:bg-[#E2E8F0] transition-all active:scale-95 shadow-sm">Calculate yours now</a>
+      <a href="#calculator" id="cta-calculate-link" class="h-12 px-8 bg-[#111111] dark:bg-[#FAFAFA] text-white dark:text-[#111111] rounded-lg text-sm font-semibold flex items-center justify-center no-underline hover:bg-[#242424] dark:hover:bg-[#E2E8F0] transition-all active:scale-95 shadow-sm">Calculate yours now</a>
     </div>
   </div>
 </section>
+
+<script is:inline>
+  document.getElementById('cta-calculate-link')?.addEventListener('click', function() {
+    window.posthog?.capture('cta_calculate_clicked');
+  });
+</script>

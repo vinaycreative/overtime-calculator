@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import PostHog from '../components/posthog.astro';
 
 interface Props {
   title: string;
@@ -38,6 +39,8 @@ const {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <PostHog />
+
   <!-- Anti-flash: apply saved theme before first paint -->
   <script is:inline>
     (function(){

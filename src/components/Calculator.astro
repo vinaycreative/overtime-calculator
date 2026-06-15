@@ -523,6 +523,10 @@
           }
         });
 
+        window.posthog?.capture('jurisdiction_changed', {
+          jurisdiction: val,
+          jurisdiction_label: text,
+        });
         closeSelect();
       });
     });
@@ -734,6 +738,9 @@
         btn.classList.add('active');
         btn.setAttribute('aria-pressed', 'true');
         mult = parseFloat(btn.dataset.mult || '1.5');
+        window.posthog?.capture('multiplier_selected', {
+          multiplier: mult,
+        });
         if (isCalculated) {
           calc();
         }
@@ -749,6 +756,12 @@
         }
         calc();
         showResults();
+        window.posthog?.capture('overtime_calculated', {
+          hourly_rate: parseFloat(rateEl.value),
+          overtime_hours: parseFloat(hoursEl.value),
+          multiplier: mult,
+          jurisdiction: stateSelect ? stateSelect.value : 'federal',
+        });
       });
     }
 
@@ -814,6 +827,7 @@
     if (printBtn) {
       printBtn.addEventListener('click', () => {
         ensureCalculated();
+        window.posthog?.capture('results_printed');
         window.print();
       });
     }
@@ -835,6 +849,10 @@ Total Weekly: ${totPayEl.textContent}`;
 
       isCopying = true;
       navigator.clipboard.writeText(text).then(() => {
+        window.posthog?.capture('results_copied', {
+          jurisdiction: stateSelect ? stateSelect.value : 'federal',
+          multiplier: mult,
+        });
         if (copyBtn) {
           copyBtn.innerHTML = '<span class="text-[10px] font-bold text-green">Copied!</span>';
         }
@@ -856,6 +874,13 @@ Total Weekly: ${totPayEl.textContent}`;
 
     if (copyBtn) copyBtn.addEventListener('click', handleCopy);
     if (resultsCopyBtn) resultsCopyBtn.addEventListener('click', handleCopy);
+
+    const detailedCalcLink = document.querySelector('a[href="/calculator"]');
+    if (detailedCalcLink) {
+      detailedCalcLink.addEventListener('click', () => {
+        window.posthog?.capture('detailed_calculator_clicked');
+      });
+    }
 
     // Pre-load default values in inputs
     calc();

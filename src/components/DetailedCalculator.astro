@@ -499,6 +499,9 @@
           }
         });
 
+        window.posthog?.capture('currency_changed', {
+          currency: code,
+        });
         closeCurDropdown();
         if (isCalculated) calculateAndRender();
       });
@@ -515,7 +518,10 @@
         btn.classList.remove('hover:text-t1');
         
         currentFreq = btn.getAttribute('data-freq');
-        
+        window.posthog?.capture('pay_frequency_changed', {
+          pay_frequency: currentFreq,
+        });
+
         if (currentFreq === 'hourly' || currentFreq === 'weekly' || currentFreq === 'monthly' || currentFreq === 'yearly') {
           if (currentFreq === 'hourly') { payLabel.textContent = 'Hourly Pay Rate'; payUnit.textContent = '/ hr'; }
           else if (currentFreq === 'weekly') { payLabel.textContent = 'Weekly Pay Rate'; payUnit.textContent = '/ wk'; }
@@ -815,7 +821,20 @@
     }
 
     // --- EVENT LISTENERS ---
-    if (calcTriggerBtn) calcTriggerBtn.addEventListener('click', showResults);
+    if (calcTriggerBtn) {
+      calcTriggerBtn.addEventListener('click', () => {
+        const payAmount = parseFloat(payInput.value) || 0;
+        if (payAmount <= 0) return;
+        showResults();
+        window.posthog?.capture('detailed_overtime_calculated', {
+          pay_frequency: currentFreq,
+          multiplier: parseFloat(customMultInput.value) || 1.5,
+          overtime_hours: parseFloat(otHoursInput.value) || 0,
+          double_time_enabled: dtCheckbox ? dtCheckbox.checked : false,
+          currency: curSelect ? curSelect.value : 'USD',
+        });
+      });
+    }
 
     if (editBtn) editBtn.addEventListener('click', hideResults);
 
